@@ -92,8 +92,8 @@ export const Sidebar = ({ role = "admin" }: { role?: "admin" | "distributor" }) 
           <button
             onClick={() => toggleExpand(item.title)}
             className={cn(
-              "flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors rounded-lg",
-              "text-sidebar-foreground hover:bg-sidebar-accent",
+              "flex items-center justify-between w-full px-4 py-2.5 text-sm transition-all duration-300 rounded-xl",
+              "text-sidebar-foreground hover:bg-white/50 dark:hover:bg-gray-800/50 hover:backdrop-blur-xl hover:scale-[1.02]",
               level > 0 && "pl-8"
             )}
           >
@@ -121,11 +121,11 @@ export const Sidebar = ({ role = "admin" }: { role?: "admin" | "distributor" }) 
         to={item.href!}
         className={({ isActive }) =>
           cn(
-            "flex items-center gap-3 px-4 py-2.5 text-sm transition-colors rounded-lg mb-1",
+            "flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-300 rounded-xl mb-1",
             level > 0 && "pl-12",
             isActive
-              ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-              : "text-sidebar-foreground hover:bg-sidebar-accent"
+              ? "bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-xl text-primary font-medium shadow-md border border-primary/30"
+              : "text-sidebar-foreground hover:bg-white/50 dark:hover:bg-gray-800/50 hover:backdrop-blur-xl hover:scale-[1.02]"
           )
         }
       >
@@ -136,9 +136,9 @@ export const Sidebar = ({ role = "admin" }: { role?: "admin" | "distributor" }) 
   };
 
   return (
-    <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col">
-      <div className="p-6 border-b border-sidebar-border">
-        <h1 className="text-xl font-bold text-sidebar-foreground">
+    <aside className="w-64 backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border-r border-white/30 dark:border-gray-700/30 flex flex-col shadow-lg">
+      <div className="p-6 border-b border-white/20 dark:border-gray-700/20">
+        <h1 className="text-xl font-bold text-sidebar-foreground bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
           {role === "admin" ? "ERP System" : "Distributor Portal"}
         </h1>
       </div>
