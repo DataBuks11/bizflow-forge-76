@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, IndianRupee, TrendingUp, AlertCircle } from "lucide-react";
 
 const expenses = [
-  { id: "EXP-001", employee: "John Smith", category: "Fuel", amount: "$250", date: "2025-10-14", status: "Approved" },
-  { id: "EXP-002", employee: "Jane Doe", category: "Logistics", amount: "$1,200", date: "2025-10-13", status: "Pending" },
-  { id: "EXP-003", employee: "Mike Johnson", category: "Marketing", amount: "$850", date: "2025-10-12", status: "Approved" },
-  { id: "EXP-004", employee: "Sarah Wilson", category: "Fuel", amount: "$180", date: "2025-10-11", status: "Rejected" },
-  { id: "EXP-005", employee: "David Brown", category: "Client Meeting", amount: "$450", date: "2025-10-10", status: "Pending" },
+  { id: "EXP-001", employee: "John Smith", category: "Fuel", amount: "₹20,750", date: "2025-10-14", status: "Approved" },
+  { id: "EXP-002", employee: "Jane Doe", category: "Logistics", amount: "₹99,600", date: "2025-10-13", status: "Pending" },
+  { id: "EXP-003", employee: "Mike Johnson", category: "Marketing", amount: "₹70,550", date: "2025-10-12", status: "Approved" },
+  { id: "EXP-004", employee: "Sarah Wilson", category: "Fuel", amount: "₹14,940", date: "2025-10-11", status: "Rejected" },
+  { id: "EXP-005", employee: "David Brown", category: "Client Meeting", amount: "₹37,350", date: "2025-10-10", status: "Pending" },
 ];
 
 const Expenses = () => {
@@ -43,7 +43,7 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$12,450</div>
+            <div className="text-2xl font-bold">₹10,33,350</div>
             <p className="text-xs text-muted-foreground">15 requests</p>
           </CardContent>
         </Card>
@@ -54,7 +54,7 @@ const Expenses = () => {
             <TrendingUp className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$34,200</div>
+            <div className="text-2xl font-bold">₹28,39,600</div>
             <p className="text-xs text-muted-foreground">45 requests</p>
           </CardContent>
         </Card>
@@ -65,7 +65,7 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$2,270</div>
+            <div className="text-2xl font-bold">₹1,88,410</div>
             <p className="text-xs text-muted-foreground">8 requests</p>
           </CardContent>
         </Card>
@@ -80,19 +80,19 @@ const Expenses = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span>Fuel</span>
-                <span className="font-semibold">$12,400</span>
+                <span className="font-semibold">₹10,29,200</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Logistics</span>
-                <span className="font-semibold">$18,900</span>
+                <span className="font-semibold">₹15,69,000</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Marketing</span>
-                <span className="font-semibold">$9,850</span>
+                <span className="font-semibold">₹8,17,550</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Client Meetings</span>
-                <span className="font-semibold">$7,770</span>
+                <span className="font-semibold">₹6,44,910</span>
               </div>
             </div>
           </CardContent>
@@ -106,19 +106,19 @@ const Expenses = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span>Sales</span>
-                <span className="font-semibold">$22,500</span>
+                <span className="font-semibold">₹18,67,500</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Operations</span>
-                <span className="font-semibold">$14,300</span>
+                <span className="font-semibold">₹11,86,900</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Marketing</span>
-                <span className="font-semibold">$9,850</span>
+                <span className="font-semibold">₹8,17,550</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Logistics</span>
-                <span className="font-semibold">$2,270</span>
+                <span className="font-semibold">₹1,88,410</span>
               </div>
             </div>
           </CardContent>

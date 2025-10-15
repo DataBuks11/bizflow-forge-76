@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 const products = [
-  { id: "PRD-001", name: "Product A", category: "Electronics", price: "$299", stock: 150, status: "Active" },
-  { id: "PRD-002", name: "Product B", category: "Hardware", price: "$149", stock: 89, status: "Active" },
-  { id: "PRD-003", name: "Product C", category: "Software", price: "$499", stock: 200, status: "Active" },
-  { id: "PRD-004", name: "Product D", category: "Electronics", price: "$799", stock: 12, status: "Active" },
-  { id: "PRD-005", name: "Product E", category: "Accessories", price: "$49", stock: 0, status: "Pending" },
+  { id: "PRD-001", name: "Product A", category: "Electronics", price: "₹24,825", stock: 150, status: "Active" },
+  { id: "PRD-002", name: "Product B", category: "Hardware", price: "₹12,370", stock: 89, status: "Active" },
+  { id: "PRD-003", name: "Product C", category: "Software", price: "₹41,415", stock: 200, status: "Active" },
+  { id: "PRD-004", name: "Product D", category: "Electronics", price: "₹66,345", stock: 12, status: "Active" },
+  { id: "PRD-005", name: "Product E", category: "Accessories", price: "₹4,070", stock: 0, status: "Pending" },
 ];
 
 const Products = () => {

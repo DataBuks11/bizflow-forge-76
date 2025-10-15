@@ -17,6 +17,8 @@ import SalesTarget from "./pages/SalesTarget";
 import Billing from "./pages/Billing";
 import Expenses from "./pages/Expenses";
 import Leads from "./pages/crm/Leads";
+import Quotations from "./pages/crm/Quotations";
+import SalesOrders from "./pages/crm/SalesOrders";
 import Attendance from "./pages/hrm/Attendance";
 import Leave from "./pages/hrm/Leave";
 import Payroll from "./pages/hrm/Payroll";
@@ -52,6 +54,8 @@ const App = () => (
                 <Route path="/billing" element={<Billing />} />
                 <Route path="/expenses" element={<Expenses />} />
                 <Route path="/crm/leads" element={<Leads />} />
+                <Route path="/crm/quotations" element={<Quotations />} />
+                <Route path="/crm/orders" element={<SalesOrders />} />
                 <Route path="/hrm/attendance" element={<Attendance />} />
                 <Route path="/hrm/leave" element={<Leave />} />
                 <Route path="/hrm/payroll" element={<Payroll />} />

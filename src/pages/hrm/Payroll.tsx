@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IndianRupee, TrendingUp, Users } from "lucide-react";
 
 const payrollData = [
-  { id: "EMP-001", name: "John Smith", baseSalary: "$5,000", incentive: "$500", deduction: "$150", netSalary: "$5,350", status: "Processed" },
-  { id: "EMP-002", name: "Jane Doe", baseSalary: "$6,500", incentive: "$800", deduction: "$200", netSalary: "$7,100", status: "Processed" },
-  { id: "EMP-003", name: "Mike Johnson", baseSalary: "$4,500", incentive: "$350", deduction: "$100", netSalary: "$4,750", status: "Pending" },
-  { id: "EMP-004", name: "Sarah Wilson", baseSalary: "$5,500", incentive: "$600", deduction: "$180", netSalary: "$5,920", status: "Processed" },
-  { id: "EMP-005", name: "David Brown", baseSalary: "$4,800", incentive: "$400", deduction: "$120", netSalary: "$5,080", status: "Pending" },
+  { id: "EMP-001", name: "John Smith", baseSalary: "₹4,15,000", incentive: "₹41,500", deduction: "₹12,450", netSalary: "₹4,44,050", status: "Processed" },
+  { id: "EMP-002", name: "Jane Doe", baseSalary: "₹5,39,500", incentive: "₹66,400", deduction: "₹16,600", netSalary: "₹5,89,300", status: "Processed" },
+  { id: "EMP-003", name: "Mike Johnson", baseSalary: "₹3,73,500", incentive: "₹29,050", deduction: "₹8,300", netSalary: "₹3,94,250", status: "Pending" },
+  { id: "EMP-004", name: "Sarah Wilson", baseSalary: "₹4,56,500", incentive: "₹49,800", deduction: "₹14,940", netSalary: "₹4,91,360", status: "Processed" },
+  { id: "EMP-005", name: "David Brown", baseSalary: "₹3,98,400", incentive: "₹33,200", deduction: "₹9,960", netSalary: "₹4,21,640", status: "Pending" },
 ];
 
 const Payroll = () => {
@@ -40,7 +40,7 @@ const Payroll = () => {
             <TrendingUp className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$48,200</div>
+            <div className="text-2xl font-bold">₹40,01,600</div>
             <p className="text-xs text-muted-foreground">Performance bonuses</p>
           </CardContent>
         </Card>

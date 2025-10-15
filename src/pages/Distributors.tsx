@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 const distributors = [
-  { id: "DIST-001", name: "Metro Distributors", contact: "Robert Johnson", region: "North", email: "robert@metro.com", phone: "+1234567890", revenue: "$245,000", status: "Active" },
-  { id: "DIST-002", name: "City Traders", contact: "Linda Martinez", region: "South", email: "linda@city.com", phone: "+1234567891", revenue: "$189,500", status: "Active" },
-  { id: "DIST-003", name: "Express Distribution", contact: "James Wilson", region: "East", email: "james@express.com", phone: "+1234567892", revenue: "$312,000", status: "Active" },
-  { id: "DIST-004", name: "Prime Logistics", contact: "Patricia Davis", region: "West", email: "patricia@prime.com", phone: "+1234567893", revenue: "$156,800", status: "Active" },
-  { id: "DIST-005", name: "Swift Supply Co", contact: "Michael Brown", region: "Central", email: "michael@swift.com", phone: "+1234567894", revenue: "$98,200", status: "Pending" },
+  { id: "DIST-001", name: "Metro Distributors", contact: "Robert Johnson", region: "North", email: "robert@metro.com", phone: "+1234567890", revenue: "₹2,03,35,000", status: "Active" },
+  { id: "DIST-002", name: "City Traders", contact: "Linda Martinez", region: "South", email: "linda@city.com", phone: "+1234567891", revenue: "₹1,57,32,500", status: "Active" },
+  { id: "DIST-003", name: "Express Distribution", contact: "James Wilson", region: "East", email: "james@express.com", phone: "+1234567892", revenue: "₹2,59,06,000", status: "Active" },
+  { id: "DIST-004", name: "Prime Logistics", contact: "Patricia Davis", region: "West", email: "patricia@prime.com", phone: "+1234567893", revenue: "₹1,30,17,600", status: "Active" },
+  { id: "DIST-005", name: "Swift Supply Co", contact: "Michael Brown", region: "Central", email: "michael@swift.com", phone: "+1234567894", revenue: "₹81,52,600", status: "Pending" },
 ];
 
 const Distributors = () => {

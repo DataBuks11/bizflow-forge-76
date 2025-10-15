@@ -4,10 +4,10 @@ import { IndianRupee, Users, Building2, ShoppingCart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const recentOrders = [
-  { id: "ORD-001", customer: "ABC Corp", amount: "$12,500", status: "Pending", date: "2025-10-14" },
-  { id: "ORD-002", customer: "XYZ Ltd", amount: "$8,900", status: "Approved", date: "2025-10-13" },
-  { id: "ORD-003", customer: "Tech Solutions", amount: "$15,200", status: "Completed", date: "2025-10-12" },
-  { id: "ORD-004", customer: "Global Traders", amount: "$6,750", status: "Pending", date: "2025-10-11" },
+  { id: "ORD-001", customer: "ABC Corp", amount: "₹10,37,500", status: "Pending", date: "2025-10-14" },
+  { id: "ORD-002", customer: "XYZ Ltd", amount: "₹7,39,000", status: "Approved", date: "2025-10-13" },
+  { id: "ORD-003", customer: "Tech Solutions", amount: "₹12,61,600", status: "Completed", date: "2025-10-12" },
+  { id: "ORD-004", customer: "Global Traders", amount: "₹5,60,250", status: "Pending", date: "2025-10-11" },
 ];
 
 const Dashboard = () => {
