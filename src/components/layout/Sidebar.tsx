@@ -17,8 +17,10 @@ import {
   Receipt,
   BarChart3,
   ChevronRight,
-  ArrowRightLeft
+  ArrowRightLeft,
+  X
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -71,7 +73,7 @@ const distributorNavItems: NavItem[] = [
   { title: "Products", icon: Package, href: "/distributor/products" },
 ];
 
-export const Sidebar = ({ role = "admin" }: { role?: "admin" | "distributor" }) => {
+export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distributor"; onClose?: () => void }) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   
   const items = role === "admin" ? navItems : distributorNavItems;
@@ -139,10 +141,20 @@ export const Sidebar = ({ role = "admin" }: { role?: "admin" | "distributor" }) 
 
   return (
     <aside className="w-64 backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border-r border-white/30 dark:border-gray-700/30 flex flex-col shadow-lg">
-      <div className="p-6 border-b border-white/20 dark:border-gray-700/20">
+      <div className="p-6 border-b border-white/20 dark:border-gray-700/20 flex items-center justify-between">
         <h1 className="text-xl font-bold text-sidebar-foreground bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
           {role === "admin" ? "ERP System" : "Distributor Portal"}
         </h1>
+        {onClose && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="h-8 w-8 rounded-full hover:bg-white/70 dark:hover:bg-gray-800/70"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <nav className="flex-1 overflow-y-auto p-4">
         {items.map(item => renderNavItem(item))}
