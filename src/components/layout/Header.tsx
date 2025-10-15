@@ -1,11 +1,21 @@
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export const Header = () => {
+export const Header = ({ isSidebarOpen, onMenuClick }: { isSidebarOpen: boolean; onMenuClick: () => void }) => {
   return (
     <header className="h-16 border-b border-white/20 dark:border-gray-700/20 backdrop-blur-xl bg-white/50 dark:bg-gray-900/50 flex items-center justify-between px-6 shadow-sm">
       <div className="flex items-center gap-4 flex-1 max-w-xl">
+        {!isSidebarOpen && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onMenuClick}
+            className="rounded-full hover:bg-white/70 dark:hover:bg-gray-800/70"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        )}
         <Search className="h-5 w-5 text-muted-foreground" />
         <Input 
           placeholder="Search..." 
