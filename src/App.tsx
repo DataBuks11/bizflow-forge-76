@@ -23,6 +23,7 @@ import Payroll from "./pages/hrm/Payroll";
 import Performance from "./pages/hrm/Performance";
 import DistributorDashboard from "./pages/distributor/DistributorDashboard";
 import DistributorOrders from "./pages/distributor/DistributorOrders";
+import CurrencyConverter from "./pages/CurrencyConverter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
                 <Route path="/hrm/performance" element={<Performance />} />
                 <Route path="/distributor/dashboard" element={<DistributorDashboard />} />
                 <Route path="/distributor/orders" element={<DistributorOrders />} />
+                <Route path="/currency-converter" element={<CurrencyConverter />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

@@ -16,7 +16,8 @@ import {
   FileText,
   Receipt,
   BarChart3,
-  ChevronRight
+  ChevronRight,
+  ArrowRightLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -58,6 +59,7 @@ const navItems: NavItem[] = [
   { title: "Inventory", icon: Warehouse, href: "/inventory" },
   { title: "Billing", icon: Receipt, href: "/billing" },
   { title: "Expenses", icon: Wallet, href: "/expenses" },
+  { title: "Currency Converter", icon: ArrowRightLeft, href: "/currency-converter" },
   { title: "Reports", icon: BarChart3, href: "/reports" },
 ];
 
