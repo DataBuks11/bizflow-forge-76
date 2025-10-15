@@ -1,6 +1,6 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
-import { ShoppingCart, Package, Users, DollarSign } from "lucide-react";
+import { ShoppingCart, Package, Users, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -37,8 +37,8 @@ const DistributorDashboard = () => {
         />
         <StatCard
           title="Monthly Revenue"
-          value="$184,500"
-          icon={DollarSign}
+          value="₹1,53,04,500"
+          icon={IndianRupee}
           trend={{ value: "15.3%", positive: true }}
         />
       </div>

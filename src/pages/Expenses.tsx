@@ -1,7 +1,7 @@
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, DollarSign, TrendingUp, AlertCircle } from "lucide-react";
+import { Plus, IndianRupee, TrendingUp, AlertCircle } from "lucide-react";
 
 const expenses = [
   { id: "EXP-001", employee: "John Smith", category: "Fuel", amount: "$250", date: "2025-10-14", status: "Approved" },
@@ -29,10 +29,10 @@ const Expenses = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$48,920</div>
+            <div className="text-2xl font-bold">₹40,56,120</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>

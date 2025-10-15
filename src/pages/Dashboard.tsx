@@ -1,6 +1,6 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
-import { DollarSign, Users, Building2, ShoppingCart } from "lucide-react";
+import { IndianRupee, Users, Building2, ShoppingCart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const recentOrders = [
@@ -21,8 +21,8 @@ const Dashboard = () => {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Sales"
-          value="$284,500"
-          icon={DollarSign}
+          value="₹2,35,84,500"
+          icon={IndianRupee}
           trend={{ value: "12.5%", positive: true }}
         />
         <StatCard
