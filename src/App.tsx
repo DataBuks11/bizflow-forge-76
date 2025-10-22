@@ -28,6 +28,10 @@ import DistributorDashboard from "./pages/distributor/DistributorDashboard";
 import DistributorOrders from "./pages/distributor/DistributorOrders";
 import CurrencyConverter from "./pages/CurrencyConverter";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -40,38 +44,50 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
-            {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
-            <div className="flex flex-col flex-1 overflow-hidden">
-              <Header isSidebarOpen={isSidebarOpen} onMenuClick={() => setIsSidebarOpen(true)} />
-            <main className="flex-1 overflow-y-auto p-6">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/customers" element={<Customers />} />
-                <Route path="/employees" element={<Employees />} />
-                <Route path="/distributors" element={<Distributors />} />
-                <Route path="/inventory" element={<Inventory />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/location-tracking" element={<LocationTracking />} />
-                <Route path="/sales-target" element={<SalesTarget />} />
-                <Route path="/billing" element={<Billing />} />
-                <Route path="/expenses" element={<Expenses />} />
-                <Route path="/crm/leads" element={<Leads />} />
-                <Route path="/crm/quotations" element={<Quotations />} />
-                <Route path="/crm/orders" element={<SalesOrders />} />
-                <Route path="/hrm/attendance" element={<Attendance />} />
-                <Route path="/hrm/leave" element={<Leave />} />
-                <Route path="/hrm/payroll" element={<Payroll />} />
-                <Route path="/hrm/performance" element={<Performance />} />
-                <Route path="/distributor/dashboard" element={<DistributorDashboard />} />
-                <Route path="/distributor/orders" element={<DistributorOrders />} />
-                <Route path="/currency-converter" element={<CurrencyConverter />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-          </div>
-        </div>
+          <Routes>
+            <Route path="/auth" element={<Auth />} />
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute>
+                  <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+                    {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+                    <div className="flex flex-col flex-1 overflow-hidden">
+                      <Header isSidebarOpen={isSidebarOpen} onMenuClick={() => setIsSidebarOpen(true)} />
+                      <main className="flex-1 overflow-y-auto p-6">
+                        <Routes>
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/products" element={<Products />} />
+                          <Route path="/customers" element={<Customers />} />
+                          <Route path="/employees" element={<Employees />} />
+                          <Route path="/distributors" element={<Distributors />} />
+                          <Route path="/inventory" element={<Inventory />} />
+                          <Route path="/reports" element={<Reports />} />
+                          <Route path="/location-tracking" element={<LocationTracking />} />
+                          <Route path="/sales-target" element={<SalesTarget />} />
+                          <Route path="/billing" element={<Billing />} />
+                          <Route path="/expenses" element={<Expenses />} />
+                          <Route path="/crm/leads" element={<Leads />} />
+                          <Route path="/crm/quotations" element={<Quotations />} />
+                          <Route path="/crm/orders" element={<SalesOrders />} />
+                          <Route path="/hrm/attendance" element={<Attendance />} />
+                          <Route path="/hrm/leave" element={<Leave />} />
+                          <Route path="/hrm/payroll" element={<Payroll />} />
+                          <Route path="/hrm/performance" element={<Performance />} />
+                          <Route path="/distributor/dashboard" element={<DistributorDashboard />} />
+                          <Route path="/distributor/orders" element={<DistributorOrders />} />
+                          <Route path="/currency-converter" element={<CurrencyConverter />} />
+                          <Route path="/profile" element={<Profile />} />
+                          <Route path="/settings" element={<Settings />} />
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </main>
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
