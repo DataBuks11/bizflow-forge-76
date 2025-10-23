@@ -1,82 +1,65 @@
+import { useState, useEffect } from "react";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IndianRupee, TrendingUp, Users } from "lucide-react";
-
-const payrollData = [
-  { id: "EMP-001", name: "John Smith", baseSalary: "₹4,15,000", incentive: "₹41,500", deduction: "₹12,450", netSalary: "₹4,44,050", status: "Processed" },
-  { id: "EMP-002", name: "Jane Doe", baseSalary: "₹5,39,500", incentive: "₹66,400", deduction: "₹16,600", netSalary: "₹5,89,300", status: "Processed" },
-  { id: "EMP-003", name: "Mike Johnson", baseSalary: "₹3,73,500", incentive: "₹29,050", deduction: "₹8,300", netSalary: "₹3,94,250", status: "Pending" },
-  { id: "EMP-004", name: "Sarah Wilson", baseSalary: "₹4,56,500", incentive: "₹49,800", deduction: "₹14,940", netSalary: "₹4,91,360", status: "Processed" },
-  { id: "EMP-005", name: "David Brown", baseSalary: "₹3,98,400", incentive: "₹33,200", deduction: "₹9,960", netSalary: "₹4,21,640", status: "Pending" },
-];
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { PayrollDialog } from "@/components/dialogs/PayrollDialog";
 
 const Payroll = () => {
+  const [payrollData, setPayrollData] = useState<any[]>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    fetchPayroll();
+  }, []);
+
+  const fetchPayroll = async () => {
+    const { data } = await supabase.from("payroll").select("*").order("created_at", { ascending: false });
+    if (data) setPayrollData(data);
+  };
+
+  const handleStatusChange = async (payrollId: string, newStatus: string) => {
+    await supabase.from("payroll").update({ status: newStatus }).eq("id", payrollId);
+    toast({ title: "Status updated" });
+    fetchPayroll();
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Payroll Management</h1>
-          <p className="text-muted-foreground">Process employee salaries and incentives</p>
+          <p className="text-muted-foreground">Process employee salaries</p>
         </div>
-        <Button>Process Payroll</Button>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Payroll</CardTitle>
-            <IndianRupee className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">₹6,99,32,500</div>
-            <p className="text-xs text-muted-foreground">This month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Incentives</CardTitle>
-            <TrendingUp className="h-4 w-4 text-success" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">₹40,01,600</div>
-            <p className="text-xs text-muted-foreground">Performance bonuses</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Employees Paid</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">142/156</div>
-            <p className="text-xs text-muted-foreground">14 pending</p>
-          </CardContent>
-        </Card>
+        <Button onClick={() => setDialogOpen(true)}><Plus className="h-4 w-4 mr-2" />Process Payroll</Button>
       </div>
 
       <DataTable
         title="Employee Payroll"
         columns={[
-          { key: "id", label: "Employee ID" },
-          { key: "name", label: "Name" },
-          { key: "baseSalary", label: "Base Salary" },
-          { key: "incentive", label: "Incentive" },
-          { key: "deduction", label: "Deduction" },
+          { key: "employee_name", label: "Name" },
+          { key: "basic_salary", label: "Salary", render: (v) => `₹${parseFloat(v || 0).toLocaleString('en-IN')}` },
+          { key: "net_salary", label: "Net", render: (v) => `₹${parseFloat(v || 0).toLocaleString('en-IN')}` },
           { 
-            key: "netSalary", 
-            label: "Net Salary",
-            render: (value) => <span className="font-semibold">{value}</span>
+            key: "status", 
+            label: "Status",
+            render: (value, row) => (
+              <Select value={value} onValueChange={(s) => handleStatusChange(row.id, s)}>
+                <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Processed">Processed</SelectItem>
+                  <SelectItem value="Pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
+            )
           },
-          { key: "status", label: "Status" },
         ]}
         data={payrollData}
-        actions={(row) => (
-          <Button variant="outline" size="sm">View Details</Button>
-        )}
       />
+
+      <PayrollDialog open={dialogOpen} onOpenChange={setDialogOpen} onSuccess={fetchPayroll} />
     </div>
   );
 };

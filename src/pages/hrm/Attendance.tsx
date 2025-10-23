@@ -1,80 +1,109 @@
-import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
+import { useState, useEffect } from "react";
+import { DataTable } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, Calendar } from "lucide-react";
-
-const attendanceData = [
-  { id: "EMP-001", name: "John Smith", date: "2025-10-15", checkIn: "09:00 AM", checkOut: "06:00 PM", status: "Present" },
-  { id: "EMP-002", name: "Jane Doe", date: "2025-10-15", checkIn: "09:15 AM", checkOut: "06:10 PM", status: "Present" },
-  { id: "EMP-003", name: "Mike Johnson", date: "2025-10-15", checkIn: "10:30 AM", checkOut: "06:00 PM", status: "Present" },
-  { id: "EMP-004", name: "Sarah Wilson", date: "2025-10-15", checkIn: "-", checkOut: "-", status: "Absent" },
-  { id: "EMP-005", name: "David Brown", date: "2025-10-15", checkIn: "09:00 AM", checkOut: "02:00 PM", status: "Present" },
-];
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Clock, Users, TrendingUp } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const Attendance = () => {
+  const [attendanceData, setAttendanceData] = useState<any[]>([]);
+  const [employees, setEmployees] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchAttendance();
+    fetchEmployees();
+  }, []);
+
+  const fetchAttendance = async () => {
+    const { data } = await supabase.from("attendance").select("*").order("date", { ascending: false });
+    if (data) setAttendanceData(data);
+    setLoading(false);
+  };
+
+  const fetchEmployees = async () => {
+    const { data } = await supabase.from("employees").select("*").eq("status", "Active");
+    if (data) setEmployees(data);
+  };
+
+  const handleCheckIn = async () => {
+    if (employees.length === 0) return;
+    const employee = employees[0];
+    const { error } = await supabase.from("attendance").insert([{
+      employee_id: employee.id,
+      employee_name: employee.name,
+      check_in: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      status: "Present",
+    }]);
+    if (!error) { toast({ title: "Checked in successfully" }); fetchAttendance(); }
+  };
+
+  const handleCheckOut = async () => {
+    const todayRecord = attendanceData.find(r => r.date === new Date().toISOString().split('T')[0] && !r.check_out);
+    if (!todayRecord) return;
+    const { error } = await supabase.from("attendance").update({ 
+      check_out: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) 
+    }).eq("id", todayRecord.id);
+    if (!error) { toast({ title: "Checked out successfully" }); fetchAttendance(); }
+  };
+
+  const handleStatusChange = async (recordId: string, newStatus: string) => {
+    await supabase.from("attendance").update({ status: newStatus }).eq("id", recordId);
+    fetchAttendance();
+  };
+
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Attendance Management</h1>
-        <p className="text-muted-foreground">Track employee attendance and working hours</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Attendance Management</h1>
+          <p className="text-muted-foreground">Track employee attendance</p>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={handleCheckIn}><Clock className="h-4 w-4 mr-2" />Check In</Button>
+          <Button variant="outline" onClick={handleCheckOut}><Clock className="h-4 w-4 mr-2" />Check Out</Button>
+        </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Today's Attendance</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">142/156</div>
-            <p className="text-xs text-muted-foreground">91% present</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">On Time</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">128</div>
-            <p className="text-xs text-muted-foreground">90% punctuality</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Late Arrivals</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">14</div>
-            <p className="text-xs text-muted-foreground">10% late today</p>
+            <div className="text-2xl font-bold">{attendanceData.length}</div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex gap-4">
-        <Button>Check In</Button>
-        <Button variant="outline">Check Out</Button>
-      </div>
-
-      <DataTable
-        title="Today's Attendance"
-        columns={[
-          { key: "id", label: "Employee ID" },
-          { key: "name", label: "Employee Name" },
-          { key: "date", label: "Date" },
-          { key: "checkIn", label: "Check In" },
-          { key: "checkOut", label: "Check Out" },
-          { 
-            key: "status", 
-            label: "Status",
-            render: (value) => <StatusBadge status={value} />
-          },
-        ]}
-        data={attendanceData}
-      />
+      {!loading && (
+        <DataTable
+          title="Attendance Records"
+          columns={[
+            { key: "employee_name", label: "Name" },
+            { key: "date", label: "Date" },
+            { key: "check_in", label: "Check In" },
+            { key: "check_out", label: "Check Out", render: (v) => v || "-" },
+            { 
+              key: "status", 
+              label: "Status",
+              render: (value, row) => (
+                <Select value={value} onValueChange={(s) => handleStatusChange(row.id, s)}>
+                  <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Present">Present</SelectItem>
+                    <SelectItem value="Absent">Absent</SelectItem>
+                  </SelectContent>
+                </Select>
+              )
+            },
+          ]}
+          data={attendanceData}
+        />
+      )}
     </div>
   );
 };

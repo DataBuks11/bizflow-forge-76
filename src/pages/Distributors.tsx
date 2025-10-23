@@ -1,16 +1,53 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
-const distributors = [
-  { id: "DIST-001", name: "Metro Distributors", contact: "Robert Johnson", region: "North", email: "robert@metro.com", phone: "+1234567890", revenue: "₹2,03,35,000", status: "Active" },
-  { id: "DIST-002", name: "City Traders", contact: "Linda Martinez", region: "South", email: "linda@city.com", phone: "+1234567891", revenue: "₹1,57,32,500", status: "Active" },
-  { id: "DIST-003", name: "Express Distribution", contact: "James Wilson", region: "East", email: "james@express.com", phone: "+1234567892", revenue: "₹2,59,06,000", status: "Active" },
-  { id: "DIST-004", name: "Prime Logistics", contact: "Patricia Davis", region: "West", email: "patricia@prime.com", phone: "+1234567893", revenue: "₹1,30,17,600", status: "Active" },
-  { id: "DIST-005", name: "Swift Supply Co", contact: "Michael Brown", region: "Central", email: "michael@swift.com", phone: "+1234567894", revenue: "₹81,52,600", status: "Pending" },
-];
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { DistributorDialog } from "@/components/dialogs/DistributorDialog";
 
 const Distributors = () => {
+  const [distributors, setDistributors] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedDistributor, setSelectedDistributor] = useState<any>(null);
+
+  useEffect(() => {
+    fetchDistributors();
+  }, []);
+
+  const fetchDistributors = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("distributors")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      setDistributors(data || []);
+    }
+    setLoading(false);
+  };
+
+  const handleAdd = () => {
+    setSelectedDistributor(null);
+    setDialogOpen(true);
+  };
+
+  const handleEdit = (distributor: any) => {
+    setSelectedDistributor(distributor);
+    setDialogOpen(true);
+  };
+
+  const handleView = (distributor: any) => {
+    toast({ 
+      title: "Distributor Details", 
+      description: `Viewing details for ${distributor.name}` 
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -18,35 +55,49 @@ const Distributors = () => {
           <h1 className="text-3xl font-bold">Distributors</h1>
           <p className="text-muted-foreground">Manage your distributor network</p>
         </div>
-        <Button>
+        <Button onClick={handleAdd}>
           <Plus className="h-4 w-4 mr-2" />
           Add Distributor
         </Button>
       </div>
 
-      <DataTable
-        title="Distributor List"
-        columns={[
-          { key: "id", label: "Distributor ID" },
-          { key: "name", label: "Company Name" },
-          { key: "contact", label: "Contact Person" },
-          { key: "region", label: "Region" },
-          { key: "email", label: "Email" },
-          { key: "phone", label: "Phone" },
-          { key: "revenue", label: "Total Revenue" },
-          { 
-            key: "status", 
-            label: "Status",
-            render: (value) => <StatusBadge status={value} />
-          },
-        ]}
-        data={distributors}
-        actions={(row) => (
-          <div className="flex gap-2 justify-end">
-            <Button variant="outline" size="sm">View</Button>
-            <Button variant="outline" size="sm">Edit</Button>
-          </div>
-        )}
+      {loading ? (
+        <div className="text-center py-8">Loading...</div>
+      ) : (
+        <DataTable
+          title="Distributor List"
+          columns={[
+            { key: "name", label: "Company Name" },
+            { key: "contact", label: "Contact Person" },
+            { key: "region", label: "Region" },
+            { key: "email", label: "Email" },
+            { key: "phone", label: "Phone" },
+            { 
+              key: "revenue", 
+              label: "Total Revenue",
+              render: (value) => `₹${parseFloat(value || 0).toLocaleString('en-IN')}`
+            },
+            { 
+              key: "status", 
+              label: "Status",
+              render: (value) => <StatusBadge status={value} />
+            },
+          ]}
+          data={distributors}
+          actions={(row) => (
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => handleView(row)}>View</Button>
+              <Button variant="outline" size="sm" onClick={() => handleEdit(row)}>Edit</Button>
+            </div>
+          )}
+        />
+      )}
+
+      <DistributorDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        distributor={selectedDistributor}
+        onSuccess={fetchDistributors}
       />
     </div>
   );
