@@ -1,18 +1,50 @@
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Target, TrendingUp, Award } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-
-const targetData = [
-  { id: "EMP-001", name: "John Smith", role: "Sales Rep", target: "$50,000", achieved: "$42,500", percentage: 85, rank: 2 },
-  { id: "EMP-002", name: "Jane Doe", role: "Sales Manager", target: "$100,000", achieved: "$95,000", percentage: 95, rank: 1 },
-  { id: "EMP-003", name: "Mike Johnson", role: "Sales Rep", target: "$50,000", achieved: "$38,000", percentage: 76, rank: 3 },
-  { id: "EMP-004", name: "Sarah Wilson", role: "Sales Rep", target: "$50,000", achieved: "$35,500", percentage: 71, rank: 4 },
-  { id: "EMP-005", name: "David Brown", role: "Sales Rep", target: "$50,000", achieved: "$28,900", percentage: 58, rank: 5 },
-];
+import { SalesTargetDialog } from "@/components/dialogs/SalesTargetDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const SalesTarget = () => {
+  const [targets, setTargets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedTarget, setSelectedTarget] = useState<any>(null);
+
+  const fetchTargets = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("sales_targets")
+        .select("*")
+        .order("percentage", { ascending: false });
+
+      if (error) throw error;
+      
+      // Calculate ranks
+      const rankedData = (data || []).map((item, index) => ({
+        ...item,
+        rank: index + 1,
+      }));
+      
+      setTargets(rankedData);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTargets();
+  }, []);
+
+  const totalTarget = targets.reduce((sum, t) => sum + (parseFloat(t.target) || 0), 0);
+  const totalAchieved = targets.reduce((sum, t) => sum + (parseFloat(t.achieved) || 0), 0);
+  const teamPercentage = totalTarget > 0 ? Math.round((totalAchieved / totalTarget) * 100) : 0;
+  const topPerformer = targets[0];
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -20,7 +52,7 @@ const SalesTarget = () => {
           <h1 className="text-3xl font-bold">Sales Target & Achievement</h1>
           <p className="text-muted-foreground">Track sales performance against targets</p>
         </div>
-        <Button>
+        <Button onClick={() => { setSelectedTarget(null); setDialogOpen(true); }}>
           <Target className="h-4 w-4 mr-2" />
           Set New Target
         </Button>
@@ -33,9 +65,9 @@ const SalesTarget = () => {
             <Target className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$300,000</div>
-            <Progress value={78} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-2">78% achieved</p>
+            <div className="text-2xl font-bold">${totalTarget.toLocaleString()}</div>
+            <Progress value={teamPercentage} className="mt-2" />
+            <p className="text-xs text-muted-foreground mt-2">{teamPercentage}% achieved</p>
           </CardContent>
         </Card>
 
@@ -45,8 +77,8 @@ const SalesTarget = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$239,900</div>
-            <p className="text-xs text-success mt-2">↑ 12% from last month</p>
+            <div className="text-2xl font-bold">${totalAchieved.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground mt-2">{teamPercentage}% of target</p>
           </CardContent>
         </Card>
 
@@ -56,8 +88,8 @@ const SalesTarget = () => {
             <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">Jane Doe</div>
-            <p className="text-xs text-muted-foreground mt-2">95% target achieved</p>
+            <div className="text-2xl font-bold">{topPerformer?.employee_name || "N/A"}</div>
+            <p className="text-xs text-muted-foreground mt-2">{topPerformer?.percentage || 0}% target achieved</p>
           </CardContent>
         </Card>
       </div>
@@ -68,7 +100,7 @@ const SalesTarget = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {targetData.slice(0, 3).map((employee) => (
+            {targets.slice(0, 3).map((employee) => (
               <div key={employee.id} className="flex items-center gap-4 p-4 bg-secondary rounded-lg">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${
                   employee.rank === 1 ? 'bg-warning text-warning-foreground' :
@@ -78,12 +110,12 @@ const SalesTarget = () => {
                   #{employee.rank}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold">{employee.name}</h3>
+                  <h3 className="font-semibold">{employee.employee_name}</h3>
                   <p className="text-sm text-muted-foreground">{employee.role}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-lg">{employee.percentage}%</p>
-                  <p className="text-sm text-muted-foreground">{employee.achieved}</p>
+                  <p className="text-sm text-muted-foreground">${employee.achieved.toLocaleString()}</p>
                 </div>
               </div>
             ))}
@@ -94,11 +126,18 @@ const SalesTarget = () => {
       <DataTable
         title="Sales Target vs Achievement"
         columns={[
-          { key: "id", label: "Employee ID" },
-          { key: "name", label: "Name" },
+          { key: "employee_name", label: "Name" },
           { key: "role", label: "Role" },
-          { key: "target", label: "Target" },
-          { key: "achieved", label: "Achieved" },
+          { 
+            key: "target", 
+            label: "Target",
+            render: (value) => `$${parseFloat(value).toLocaleString()}`
+          },
+          { 
+            key: "achieved", 
+            label: "Achieved",
+            render: (value) => `$${parseFloat(value).toLocaleString()}`
+          },
           { 
             key: "percentage", 
             label: "Achievement %",
@@ -113,7 +152,19 @@ const SalesTarget = () => {
           },
           { key: "rank", label: "Rank" },
         ]}
-        data={targetData}
+        data={targets}
+        actions={(row) => (
+          <Button variant="outline" size="sm" onClick={() => { setSelectedTarget(row); setDialogOpen(true); }}>
+            Edit
+          </Button>
+        )}
+      />
+
+      <SalesTargetDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        target={selectedTarget}
+        onSuccess={fetchTargets}
       />
     </div>
   );

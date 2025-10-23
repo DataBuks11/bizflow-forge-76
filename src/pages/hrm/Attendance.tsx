@@ -29,24 +29,92 @@ const Attendance = () => {
   };
 
   const handleCheckIn = async () => {
-    if (employees.length === 0) return;
-    const employee = employees[0];
-    const { error } = await supabase.from("attendance").insert([{
-      employee_id: employee.id,
-      employee_name: employee.name,
-      check_in: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-      status: "Present",
-    }]);
-    if (!error) { toast({ title: "Checked in successfully" }); fetchAttendance(); }
+    try {
+      if (employees.length === 0) {
+        toast({ title: "Error", description: "No active employees found", variant: "destructive" });
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      const employee = employees[0];
+      
+      // Check if already checked in today
+      const { data: existingRecord } = await supabase
+        .from("attendance")
+        .select("*")
+        .eq("employee_id", employee.id)
+        .eq("date", today)
+        .single();
+
+      if (existingRecord) {
+        toast({ title: "Info", description: "Already checked in today", variant: "destructive" });
+        return;
+      }
+
+      const currentTime = new Date().toTimeString().split(' ')[0];
+      const { error } = await supabase.from("attendance").insert([{
+        employee_id: employee.id,
+        employee_name: employee.name,
+        date: today,
+        check_in: currentTime,
+        status: "Present",
+      }]);
+
+      if (error) throw error;
+      
+      toast({ 
+        title: "Success", 
+        description: `Checked in at ${currentTime}` 
+      });
+      fetchAttendance();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
   };
 
   const handleCheckOut = async () => {
-    const todayRecord = attendanceData.find(r => r.date === new Date().toISOString().split('T')[0] && !r.check_out);
-    if (!todayRecord) return;
-    const { error } = await supabase.from("attendance").update({ 
-      check_out: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) 
-    }).eq("id", todayRecord.id);
-    if (!error) { toast({ title: "Checked out successfully" }); fetchAttendance(); }
+    try {
+      if (employees.length === 0) {
+        toast({ title: "Error", description: "No active employees found", variant: "destructive" });
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      const employee = employees[0];
+      
+      const { data: todayRecord } = await supabase
+        .from("attendance")
+        .select("*")
+        .eq("employee_id", employee.id)
+        .eq("date", today)
+        .single();
+
+      if (!todayRecord) {
+        toast({ title: "Error", description: "No check-in record found for today", variant: "destructive" });
+        return;
+      }
+
+      if (todayRecord.check_out) {
+        toast({ title: "Info", description: "Already checked out today", variant: "destructive" });
+        return;
+      }
+
+      const currentTime = new Date().toTimeString().split(' ')[0];
+      const { error } = await supabase
+        .from("attendance")
+        .update({ check_out: currentTime })
+        .eq("id", todayRecord.id);
+
+      if (error) throw error;
+      
+      toast({ 
+        title: "Success", 
+        description: `Checked out at ${currentTime}` 
+      });
+      fetchAttendance();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
   };
 
   const handleStatusChange = async (recordId: string, newStatus: string) => {
