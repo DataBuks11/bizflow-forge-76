@@ -169,6 +169,131 @@ export type Database = {
         }
         Relationships: []
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          description: string | null
+          employee_id: string | null
+          employee_name: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          description?: string | null
+          employee_id?: string | null
+          employee_name: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          description?: string | null
+          employee_id?: string | null
+          employee_name?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          customer: string
+          discount: number
+          id: string
+          notes: string | null
+          order_id: string | null
+          status: string
+          tax: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer: string
+          discount?: number
+          id?: string
+          notes?: string | null
+          order_id?: string | null
+          status?: string
+          tax?: number
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer?: string
+          discount?: number
+          id?: string
+          notes?: string | null
+          order_id?: string | null
+          status?: string
+          tax?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          company: string
+          contact: string
+          created_at: string
+          email: string
+          id: string
+          notes: string | null
+          phone: string
+          status: string
+          updated_at: string
+          value: number
+        }
+        Insert: {
+          company: string
+          contact: string
+          created_at?: string
+          email: string
+          id?: string
+          notes?: string | null
+          phone: string
+          status?: string
+          updated_at?: string
+          value?: number
+        }
+        Update: {
+          company?: string
+          contact?: string
+          created_at?: string
+          email?: string
+          id?: string
+          notes?: string | null
+          phone?: string
+          status?: string
+          updated_at?: string
+          value?: number
+        }
+        Relationships: []
+      }
       leave_requests: {
         Row: {
           created_at: string | null
@@ -209,6 +334,53 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "leave_requests_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      location_tracking: {
+        Row: {
+          created_at: string
+          employee_id: string | null
+          employee_name: string
+          id: string
+          latitude: number | null
+          location: string
+          longitude: number | null
+          role: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          employee_id?: string | null
+          employee_name: string
+          id?: string
+          latitude?: number | null
+          location: string
+          longitude?: number | null
+          role: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          employee_id?: string | null
+          employee_name?: string
+          id?: string
+          latitude?: number | null
+          location?: string
+          longitude?: number | null
+          role?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "location_tracking_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
@@ -269,6 +441,45 @@ export type Database = {
           },
         ]
       }
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          location: string | null
+          min_stock: number
+          name: string
+          price: number
+          status: string
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          location?: string | null
+          min_stock?: number
+          name: string
+          price: number
+          status?: string
+          stock?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          location?: string | null
+          min_stock?: number
+          name?: string
+          price?: number
+          status?: string
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -295,6 +506,128 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      quotations: {
+        Row: {
+          amount: number
+          created_at: string
+          customer: string
+          id: string
+          items: number
+          notes: string | null
+          status: string
+          updated_at: string
+          valid_until: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer: string
+          id?: string
+          items?: number
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          valid_until: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer?: string
+          id?: string
+          items?: number
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          valid_until?: string
+        }
+        Relationships: []
+      }
+      sales_orders: {
+        Row: {
+          amount: number
+          created_at: string
+          customer: string
+          delivery_date: string
+          id: string
+          items: number
+          notes: string | null
+          quotation_ref: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer: string
+          delivery_date: string
+          id?: string
+          items?: number
+          notes?: string | null
+          quotation_ref?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer?: string
+          delivery_date?: string
+          id?: string
+          items?: number
+          notes?: string | null
+          quotation_ref?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sales_targets: {
+        Row: {
+          achieved: number
+          created_at: string
+          employee_id: string | null
+          employee_name: string
+          id: string
+          percentage: number
+          rank: number | null
+          role: string
+          target: number
+          updated_at: string
+        }
+        Insert: {
+          achieved?: number
+          created_at?: string
+          employee_id?: string | null
+          employee_name: string
+          id?: string
+          percentage?: number
+          rank?: number | null
+          role: string
+          target: number
+          updated_at?: string
+        }
+        Update: {
+          achieved?: number
+          created_at?: string
+          employee_id?: string | null
+          employee_name?: string
+          id?: string
+          percentage?: number
+          rank?: number | null
+          role?: string
+          target?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_targets_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

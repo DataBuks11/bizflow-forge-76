@@ -1,17 +1,63 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, IndianRupee, TrendingUp, AlertCircle } from "lucide-react";
-
-const expenses = [
-  { id: "EXP-001", employee: "John Smith", category: "Fuel", amount: "₹20,750", date: "2025-10-14", status: "Approved" },
-  { id: "EXP-002", employee: "Jane Doe", category: "Logistics", amount: "₹99,600", date: "2025-10-13", status: "Pending" },
-  { id: "EXP-003", employee: "Mike Johnson", category: "Marketing", amount: "₹70,550", date: "2025-10-12", status: "Approved" },
-  { id: "EXP-004", employee: "Sarah Wilson", category: "Fuel", amount: "₹14,940", date: "2025-10-11", status: "Rejected" },
-  { id: "EXP-005", employee: "David Brown", category: "Client Meeting", amount: "₹37,350", date: "2025-10-10", status: "Pending" },
-];
+import { ExpenseDialog } from "@/components/dialogs/ExpenseDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 const Expenses = () => {
+  const [expenses, setExpenses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState<any>(null);
+
+  const fetchExpenses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("expenses")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setExpenses(data || []);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const handleStatusUpdate = async (id: string, status: string) => {
+    try {
+      const { error } = await supabase
+        .from("expenses")
+        .update({ status })
+        .eq("id", id);
+
+      if (error) throw error;
+      toast({ title: "Success", description: `Expense ${status.toLowerCase()} successfully` });
+      fetchExpenses();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+  };
+
+  const totalExpenses = expenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+  const pendingExpenses = expenses.filter(exp => exp.status === 'Pending');
+  const approvedExpenses = expenses.filter(exp => exp.status === 'Approved');
+  const rejectedExpenses = expenses.filter(exp => exp.status === 'Rejected');
+
+  const pendingTotal = pendingExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+  const approvedTotal = approvedExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+  const rejectedTotal = rejectedExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -19,7 +65,7 @@ const Expenses = () => {
           <h1 className="text-3xl font-bold">Expense Management</h1>
           <p className="text-muted-foreground">Track and approve employee expenses</p>
         </div>
-        <Button>
+        <Button onClick={() => { setSelectedExpense(null); setDialogOpen(true); }}>
           <Plus className="h-4 w-4 mr-2" />
           Submit Expense
         </Button>
@@ -32,7 +78,7 @@ const Expenses = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹40,56,120</div>
+            <div className="text-2xl font-bold">₹{totalExpenses.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -43,8 +89,8 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹10,33,350</div>
-            <p className="text-xs text-muted-foreground">15 requests</p>
+            <div className="text-2xl font-bold">₹{pendingTotal.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">{pendingExpenses.length} requests</p>
           </CardContent>
         </Card>
 
@@ -54,8 +100,8 @@ const Expenses = () => {
             <TrendingUp className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹28,39,600</div>
-            <p className="text-xs text-muted-foreground">45 requests</p>
+            <div className="text-2xl font-bold">₹{approvedTotal.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">{approvedExpenses.length} requests</p>
           </CardContent>
         </Card>
 
@@ -65,62 +111,8 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹1,88,410</div>
-            <p className="text-xs text-muted-foreground">8 requests</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Expense by Category</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>Fuel</span>
-                <span className="font-semibold">₹10,29,200</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Logistics</span>
-                <span className="font-semibold">₹15,69,000</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Marketing</span>
-                <span className="font-semibold">₹8,17,550</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Client Meetings</span>
-                <span className="font-semibold">₹6,44,910</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Department-wise Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>Sales</span>
-                <span className="font-semibold">₹18,67,500</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Operations</span>
-                <span className="font-semibold">₹11,86,900</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Marketing</span>
-                <span className="font-semibold">₹8,17,550</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Logistics</span>
-                <span className="font-semibold">₹1,88,410</span>
-              </div>
-            </div>
+            <div className="text-2xl font-bold">₹{rejectedTotal.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">{rejectedExpenses.length} requests</p>
           </CardContent>
         </Card>
       </div>
@@ -128,11 +120,18 @@ const Expenses = () => {
       <DataTable
         title="Expense Requests"
         columns={[
-          { key: "id", label: "Expense ID" },
-          { key: "employee", label: "Employee" },
+          { key: "employee_name", label: "Employee" },
           { key: "category", label: "Category" },
-          { key: "amount", label: "Amount" },
-          { key: "date", label: "Date" },
+          { 
+            key: "amount", 
+            label: "Amount",
+            render: (value) => `₹${value.toLocaleString()}`
+          },
+          { 
+            key: "created_at", 
+            label: "Date",
+            render: (value) => format(new Date(value), "MMM dd, yyyy")
+          },
           { 
             key: "status", 
             label: "Status",
@@ -142,10 +141,22 @@ const Expenses = () => {
         data={expenses}
         actions={(row) => (
           <div className="flex gap-2 justify-end">
-            <Button variant="outline" size="sm">Approve</Button>
-            <Button variant="outline" size="sm">Reject</Button>
+            <Button variant="outline" size="sm" onClick={() => { setSelectedExpense(row); setDialogOpen(true); }}>Edit</Button>
+            {row.status === 'Pending' && (
+              <>
+                <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(row.id, 'Approved')}>Approve</Button>
+                <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(row.id, 'Rejected')}>Reject</Button>
+              </>
+            )}
           </div>
         )}
+      />
+
+      <ExpenseDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        expense={selectedExpense}
+        onSuccess={fetchExpenses}
       />
     </div>
   );

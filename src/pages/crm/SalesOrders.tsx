@@ -1,32 +1,68 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ShoppingCart, IndianRupee, TrendingUp, Package } from "lucide-react";
-
-const salesOrders = [
-  { id: "SO-001", customer: "ABC Corp", quotation: "QUO-002", amount: "₹8,32,000", items: "12", date: "2025-10-14", deliveryDate: "2025-10-21", status: "Processing" },
-  { id: "SO-002", customer: "Smart Systems", quotation: "QUO-005", amount: "₹12,45,800", items: "18", date: "2025-10-13", deliveryDate: "2025-10-20", status: "Shipped" },
-  { id: "SO-003", customer: "Tech Solutions", quotation: "QUO-001", amount: "₹10,37,500", items: "15", date: "2025-10-12", deliveryDate: "2025-10-19", status: "Delivered" },
-  { id: "SO-004", customer: "Global Inc", quotation: "QUO-003", amount: "₹15,78,900", items: "20", date: "2025-10-11", deliveryDate: "2025-10-18", status: "Processing" },
-  { id: "SO-005", customer: "Innovation Ltd", quotation: "QUO-004", amount: "₹6,24,500", items: "8", date: "2025-10-10", deliveryDate: "2025-10-17", status: "Pending" },
-];
-
-const columns = [
-  { key: "id", label: "Order ID" },
-  { key: "customer", label: "Customer" },
-  { key: "quotation", label: "Quotation Ref" },
-  { key: "amount", label: "Amount" },
-  { key: "items", label: "Items" },
-  { key: "date", label: "Order Date" },
-  { key: "deliveryDate", label: "Delivery Date" },
-  { 
-    key: "status", 
-    label: "Status",
-    render: (value: string) => <StatusBadge status={value} />
-  },
-];
+import { SalesOrderDialog } from "@/components/dialogs/SalesOrderDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 const SalesOrders = () => {
+  const [salesOrders, setSalesOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+
+  const fetchSalesOrders = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("sales_orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setSalesOrders(data || []);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSalesOrders();
+  }, []);
+
+  const columns = [
+    { key: "customer", label: "Customer" },
+    { key: "quotation_ref", label: "Quotation Ref" },
+    { 
+      key: "amount", 
+      label: "Amount",
+      render: (value: number) => `₹${value.toLocaleString()}`
+    },
+    { key: "items", label: "Items" },
+    { 
+      key: "created_at", 
+      label: "Order Date",
+      render: (value: string) => format(new Date(value), "MMM dd, yyyy")
+    },
+    { 
+      key: "delivery_date", 
+      label: "Delivery Date",
+      render: (value: string) => format(new Date(value), "MMM dd, yyyy")
+    },
+    { 
+      key: "status", 
+      label: "Status",
+      render: (value: string) => <StatusBadge status={value} />
+    },
+  ];
+
+  const totalValue = salesOrders.reduce((sum, order) => sum + (order.amount || 0), 0);
+  const pendingOrders = salesOrders.filter(order => order.status === 'Pending').length;
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -36,7 +72,7 @@ const SalesOrders = () => {
           </h1>
           <p className="text-muted-foreground">Track and manage confirmed sales orders</p>
         </div>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => { setSelectedOrder(null); setDialogOpen(true); }}>
           <Plus className="h-4 w-4" />
           New Order
         </Button>
@@ -49,7 +85,7 @@ const SalesOrders = () => {
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,247</div>
+            <div className="text-2xl font-bold">{salesOrders.length}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -60,8 +96,8 @@ const SalesOrders = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹53,18,700</div>
-            <p className="text-xs text-success">+12.5% from last month</p>
+            <div className="text-2xl font-bold">₹{totalValue.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">All orders</p>
           </CardContent>
         </Card>
 
@@ -71,7 +107,7 @@ const SalesOrders = () => {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">87</div>
+            <div className="text-2xl font-bold">{pendingOrders}</div>
             <p className="text-xs text-warning">Needs attention</p>
           </CardContent>
         </Card>
@@ -82,8 +118,10 @@ const SalesOrders = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">95.2%</div>
-            <p className="text-xs text-success">On-time delivery</p>
+            <div className="text-2xl font-bold">
+              {salesOrders.filter(o => o.status === 'Delivered').length}
+            </div>
+            <p className="text-xs text-success">Completed</p>
           </CardContent>
         </Card>
       </div>
@@ -93,9 +131,25 @@ const SalesOrders = () => {
           <CardTitle>Recent Sales Orders</CardTitle>
         </CardHeader>
         <CardContent>
-          <DataTable title="Recent Sales Orders" data={salesOrders} columns={columns} />
+          <DataTable 
+            title="Recent Sales Orders" 
+            data={salesOrders} 
+            columns={columns}
+            actions={(row) => (
+              <div className="flex gap-2 justify-end">
+                <Button variant="outline" size="sm" onClick={() => { setSelectedOrder(row); setDialogOpen(true); }}>Edit</Button>
+              </div>
+            )}
+          />
         </CardContent>
       </Card>
+
+      <SalesOrderDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        order={selectedOrder}
+        onSuccess={fetchSalesOrders}
+      />
     </div>
   );
 };

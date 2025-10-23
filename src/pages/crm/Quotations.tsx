@@ -1,31 +1,64 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, FileText, IndianRupee, TrendingUp } from "lucide-react";
-
-const quotations = [
-  { id: "QUO-001", customer: "ABC Corp", amount: "₹10,37,500", items: "15", date: "2025-10-14", status: "Pending", validUntil: "2025-10-28" },
-  { id: "QUO-002", customer: "XYZ Ltd", amount: "₹8,32,000", items: "12", date: "2025-10-13", status: "Accepted", validUntil: "2025-10-27" },
-  { id: "QUO-003", customer: "Tech Solutions", amount: "₹15,78,900", items: "20", date: "2025-10-12", status: "Pending", validUntil: "2025-10-26" },
-  { id: "QUO-004", customer: "Global Inc", amount: "₹6,24,500", items: "8", date: "2025-10-11", status: "Rejected", validUntil: "2025-10-25" },
-  { id: "QUO-005", customer: "Smart Systems", amount: "₹12,45,800", items: "18", date: "2025-10-10", status: "Accepted", validUntil: "2025-10-24" },
-];
-
-const columns = [
-  { key: "id", label: "Quotation ID" },
-  { key: "customer", label: "Customer" },
-  { key: "amount", label: "Amount" },
-  { key: "items", label: "Items" },
-  { key: "date", label: "Date" },
-  { key: "validUntil", label: "Valid Until" },
-  { 
-    key: "status", 
-    label: "Status",
-    render: (value: string) => <StatusBadge status={value} />
-  },
-];
+import { QuotationDialog } from "@/components/dialogs/QuotationDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 const Quotations = () => {
+  const [quotations, setQuotations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedQuotation, setSelectedQuotation] = useState<any>(null);
+
+  const fetchQuotations = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("quotations")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setQuotations(data || []);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuotations();
+  }, []);
+
+  const columns = [
+    { key: "customer", label: "Customer" },
+    { 
+      key: "amount", 
+      label: "Amount",
+      render: (value: number) => `₹${value.toLocaleString()}`
+    },
+    { key: "items", label: "Items" },
+    { 
+      key: "created_at", 
+      label: "Date",
+      render: (value: string) => format(new Date(value), "MMM dd, yyyy")
+    },
+    { 
+      key: "valid_until", 
+      label: "Valid Until",
+      render: (value: string) => format(new Date(value), "MMM dd, yyyy")
+    },
+    { 
+      key: "status", 
+      label: "Status",
+      render: (value: string) => <StatusBadge status={value} />
+    },
+  ];
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -35,7 +68,7 @@ const Quotations = () => {
           </h1>
           <p className="text-muted-foreground">Manage customer quotations and proposals</p>
         </div>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => { setSelectedQuotation(null); setDialogOpen(true); }}>
           <Plus className="h-4 w-4" />
           New Quotation
         </Button>
@@ -48,7 +81,7 @@ const Quotations = () => {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">245</div>
+            <div className="text-2xl font-bold">{quotations.length}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -59,19 +92,23 @@ const Quotations = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹53,18,700</div>
-            <p className="text-xs text-muted-foreground">Pending quotations</p>
+            <div className="text-2xl font-bold">
+              ₹{quotations.reduce((sum, q) => sum + (q.amount || 0), 0).toLocaleString()}
+            </div>
+            <p className="text-xs text-muted-foreground">All quotations</p>
           </CardContent>
         </Card>
 
         <Card className="transition-all duration-300 hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">Pending</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">68.5%</div>
-            <p className="text-xs text-success">+5.2% from last month</p>
+            <div className="text-2xl font-bold">
+              {quotations.filter(q => q.status === 'Pending').length}
+            </div>
+            <p className="text-xs text-muted-foreground">Awaiting response</p>
           </CardContent>
         </Card>
       </div>
@@ -81,9 +118,25 @@ const Quotations = () => {
           <CardTitle>Recent Quotations</CardTitle>
         </CardHeader>
         <CardContent>
-          <DataTable title="Recent Quotations" data={quotations} columns={columns} />
+          <DataTable 
+            title="Recent Quotations" 
+            data={quotations} 
+            columns={columns}
+            actions={(row) => (
+              <div className="flex gap-2 justify-end">
+                <Button variant="outline" size="sm" onClick={() => { setSelectedQuotation(row); setDialogOpen(true); }}>Edit</Button>
+              </div>
+            )}
+          />
         </CardContent>
       </Card>
+
+      <QuotationDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        quotation={selectedQuotation}
+        onSuccess={fetchQuotations}
+      />
     </div>
   );
 };

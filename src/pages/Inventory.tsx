@@ -1,17 +1,43 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Package, AlertTriangle, TrendingDown, CheckCircle } from "lucide-react";
-
-const inventory = [
-  { id: "PRD-001", name: "Product A", category: "Electronics", stock: 150, minStock: 50, location: "Warehouse A", status: "Active" },
-  { id: "PRD-002", name: "Product B", category: "Hardware", stock: 89, minStock: 100, location: "Warehouse A", status: "Active" },
-  { id: "PRD-003", name: "Product C", category: "Software", stock: 200, minStock: 50, location: "Warehouse B", status: "Active" },
-  { id: "PRD-004", name: "Product D", category: "Electronics", stock: 12, minStock: 50, location: "Warehouse C", status: "Active" },
-  { id: "PRD-005", name: "Product E", category: "Accessories", stock: 0, minStock: 20, location: "Warehouse A", status: "Pending" },
-];
+import { ProductDialog } from "@/components/dialogs/ProductDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const Inventory = () => {
+  const [inventory, setInventory] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
+  const fetchInventory = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setInventory(data || []);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInventory();
+  }, []);
+
+  const totalProducts = inventory.length;
+  const lowStock = inventory.filter(item => item.stock < item.min_stock && item.stock > 0).length;
+  const outOfStock = inventory.filter(item => item.stock === 0).length;
+  const inStock = inventory.filter(item => item.stock >= item.min_stock).length;
+
   return (
     <div className="p-6 space-y-6">
       <div>
@@ -22,22 +48,22 @@ const Inventory = () => {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Products"
-          value="156"
+          value={totalProducts.toString()}
           icon={Package}
         />
         <StatCard
           title="Low Stock Items"
-          value="12"
+          value={lowStock.toString()}
           icon={AlertTriangle}
         />
         <StatCard
           title="Out of Stock"
-          value="3"
+          value={outOfStock.toString()}
           icon={TrendingDown}
         />
         <StatCard
           title="In Stock"
-          value="141"
+          value={inStock.toString()}
           icon={CheckCircle}
         />
       </div>
@@ -50,19 +76,18 @@ const Inventory = () => {
       <DataTable
         title="Product Stock Summary"
         columns={[
-          { key: "id", label: "Product ID" },
           { key: "name", label: "Product Name" },
           { key: "category", label: "Category" },
           { 
             key: "stock", 
             label: "Current Stock",
             render: (value, row) => (
-              <span className={value < row.minStock ? "text-destructive font-medium" : value === 0 ? "text-destructive font-bold" : ""}>
+              <span className={value < row.min_stock ? "text-destructive font-medium" : value === 0 ? "text-destructive font-bold" : ""}>
                 {value}
               </span>
             )
           },
-          { key: "minStock", label: "Min Stock" },
+          { key: "min_stock", label: "Min Stock" },
           { key: "location", label: "Location" },
           { 
             key: "status", 
@@ -73,10 +98,17 @@ const Inventory = () => {
         data={inventory}
         actions={(row) => (
           <div className="flex gap-2 justify-end">
-            <Button variant="outline" size="sm">Update Stock</Button>
+            <Button variant="outline" size="sm" onClick={() => { setSelectedProduct(row); setDialogOpen(true); }}>Update Stock</Button>
             <Button variant="outline" size="sm">Transfer</Button>
           </div>
         )}
+      />
+
+      <ProductDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        product={selectedProduct}
+        onSuccess={fetchInventory}
       />
     </div>
   );

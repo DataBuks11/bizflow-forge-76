@@ -1,16 +1,37 @@
+import { useState, useEffect } from "react";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
-const leads = [
-  { id: "LEAD-001", company: "Tech Corp", contact: "John Doe", email: "john@techcorp.com", phone: "+1234567890", status: "New", value: "$50,000" },
-  { id: "LEAD-002", company: "Global Solutions", contact: "Jane Smith", email: "jane@global.com", phone: "+1234567891", status: "Interested", value: "$75,000" },
-  { id: "LEAD-003", company: "Digital Innovations", contact: "Mike Johnson", email: "mike@digital.com", phone: "+1234567892", status: "Quotation", value: "$120,000" },
-  { id: "LEAD-004", company: "Smart Systems", contact: "Sarah Wilson", email: "sarah@smart.com", phone: "+1234567893", status: "Converted", value: "$95,000" },
-  { id: "LEAD-005", company: "Future Tech", contact: "David Brown", email: "david@future.com", phone: "+1234567894", status: "Lost", value: "$30,000" },
-];
+import { LeadDialog } from "@/components/dialogs/LeadDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const Leads = () => {
+  const [leads, setLeads] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<any>(null);
+
+  const fetchLeads = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("leads")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setLeads(data || []);
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLeads();
+  }, []);
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -18,7 +39,7 @@ const Leads = () => {
           <h1 className="text-3xl font-bold">Leads Management</h1>
           <p className="text-muted-foreground">Track and manage your sales leads</p>
         </div>
-        <Button>
+        <Button onClick={() => { setSelectedLead(null); setDialogOpen(true); }}>
           <Plus className="h-4 w-4 mr-2" />
           Add Lead
         </Button>
@@ -27,7 +48,6 @@ const Leads = () => {
       <DataTable
         title="All Leads"
         columns={[
-          { key: "id", label: "Lead ID" },
           { key: "company", label: "Company" },
           { key: "contact", label: "Contact Person" },
           { key: "email", label: "Email" },
@@ -37,15 +57,25 @@ const Leads = () => {
             label: "Status",
             render: (value) => <StatusBadge status={value} />
           },
-          { key: "value", label: "Potential Value" },
+          { 
+            key: "value", 
+            label: "Potential Value",
+            render: (value) => `₹${value.toLocaleString()}`
+          },
         ]}
         data={leads}
         actions={(row) => (
           <div className="flex gap-2 justify-end">
-            <Button variant="outline" size="sm">Follow Up</Button>
-            <Button variant="outline" size="sm">Convert</Button>
+            <Button variant="outline" size="sm" onClick={() => { setSelectedLead(row); setDialogOpen(true); }}>Edit</Button>
           </div>
         )}
+      />
+
+      <LeadDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        lead={selectedLead}
+        onSuccess={fetchLeads}
       />
     </div>
   );
