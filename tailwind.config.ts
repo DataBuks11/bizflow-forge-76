@@ -72,18 +72,38 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        retro: {
+          orange: "hsl(var(--retro-orange))",
+          brown: "hsl(var(--retro-brown))",
+          mustard: "hsl(var(--retro-mustard))",
+          teal: "hsl(var(--retro-teal))",
+          olive: "hsl(var(--retro-olive))",
+        },
+      },
+      fontFamily: {
+        sans: ['system-ui', '-apple-system', 'sans-serif'],
+        heading: ['Righteous', 'Archivo Black', 'sans-serif'],
+        retro: ['Koulen', 'Righteous', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "calc(var(--radius) + 12px)",
       },
       backdropBlur: {
         xs: '2px',
+        '3xl': '64px',
+        '4xl': '128px',
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
-        'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        'glass': '0 12px 48px 0 rgba(139, 99, 61, 0.18)',
+        'glass-dark': '0 12px 48px 0 rgba(0, 0, 0, 0.45)',
+        'retro': '8px 8px 0px 0px hsl(28, 65%, 35%)',
+        'retro-lg': '12px 12px 0px 0px hsl(28, 45%, 45%)',
+        'vintage': '0 0 40px hsl(28, 85%, 52% / 0.3)',
       },
       keyframes: {
         "accordion-down": {
@@ -102,10 +122,30 @@ export default {
             height: "0",
           },
         },
+        "glow-pulse": {
+          "0%, 100%": {
+            opacity: "1",
+            boxShadow: "0 0 20px hsl(28, 85%, 52% / 0.4)",
+          },
+          "50%": {
+            opacity: "0.8",
+            boxShadow: "0 0 40px hsl(28, 85%, 52% / 0.6)",
+          },
+        },
+        "retro-slide": {
+          "0%": {
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "retro-slide": "retro-slide 8s linear infinite",
       },
     },
   },
