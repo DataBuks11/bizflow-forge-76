@@ -74,10 +74,11 @@ export default {
         },
         retro: {
           orange: "hsl(var(--retro-orange))",
-          brown: "hsl(var(--retro-brown))",
           mustard: "hsl(var(--retro-mustard))",
           teal: "hsl(var(--retro-teal))",
           olive: "hsl(var(--retro-olive))",
+          cherry: "hsl(var(--retro-cherry))",
+          sky: "hsl(var(--retro-sky))",
         },
       },
       fontFamily: {
@@ -99,11 +100,11 @@ export default {
         '4xl': '128px',
       },
       boxShadow: {
-        'glass': '0 12px 48px 0 rgba(139, 99, 61, 0.18)',
+        'glass': '0 12px 48px 0 rgba(180, 120, 50, 0.18)',
         'glass-dark': '0 12px 48px 0 rgba(0, 0, 0, 0.45)',
-        'retro': '8px 8px 0px 0px hsl(28, 65%, 35%)',
-        'retro-lg': '12px 12px 0px 0px hsl(28, 45%, 45%)',
-        'vintage': '0 0 40px hsl(28, 85%, 52% / 0.3)',
+        'retro': '8px 8px 0px 0px hsl(25, 85%, 40%)',
+        'retro-lg': '12px 12px 0px 0px hsl(45, 90%, 50%)',
+        'vintage': '0 0 40px hsl(25, 85%, 55% / 0.3)',
       },
       keyframes: {
         "accordion-down": {
@@ -125,11 +126,11 @@ export default {
         "glow-pulse": {
           "0%, 100%": {
             opacity: "1",
-            boxShadow: "0 0 20px hsl(28, 85%, 52% / 0.4)",
+            boxShadow: "0 0 20px hsl(25, 85%, 55% / 0.4), 0 0 30px hsl(180, 70%, 45% / 0.2)",
           },
           "50%": {
             opacity: "0.8",
-            boxShadow: "0 0 40px hsl(28, 85%, 52% / 0.6)",
+            boxShadow: "0 0 40px hsl(25, 85%, 55% / 0.6), 0 0 50px hsl(355, 85%, 55% / 0.3)",
           },
         },
         "retro-slide": {
