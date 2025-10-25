@@ -5,6 +5,7 @@ import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { MapPin, Navigation, Locate } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 // Default location: Ujjwal Nagar, Nagpur
 const defaultCenter = {
@@ -13,12 +14,18 @@ const defaultCenter = {
   name: "Ujjwal Nagar, Nagpur"
 };
 
+const mapContainerStyle = {
+  width: '100%',
+  height: '500px'
+};
+
 const LocationTracking = () => {
   const [locations, setLocations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number, name?: string} | null>(null);
   const [lastCheckIn, setLastCheckIn] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number, name: string} | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
 
   const fetchLocations = async () => {
     try {
@@ -237,104 +244,89 @@ const LocationTracking = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Locate className="h-5 w-5" />
-            Location Coordinates View
+            Live Location Map
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {/* Current Location Display */}
-            {currentLocation && (
-              <div className="p-4 bg-primary/10 rounded-lg border-2 border-primary">
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-primary mt-1" />
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-2">{currentLocation.name || "Your Location"}</h3>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Latitude:</span>
-                        <p className="font-mono font-bold">{currentLocation.lat.toFixed(6)}°</p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">Longitude:</span>
-                        <p className="font-mono font-bold">{currentLocation.lng.toFixed(6)}°</p>
-                      </div>
-                    </div>
-                    <a 
-                      href={`https://www.google.com/maps?q=${currentLocation.lat},${currentLocation.lng}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline mt-2 inline-block"
-                    >
-                      View on Google Maps →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )}
+          <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}>
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              center={currentLocation || defaultCenter}
+              zoom={13}
+              options={{
+                zoomControl: true,
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: true,
+              }}
+            >
+              {/* Current Location Marker */}
+              {currentLocation && (
+                <Marker
+                  position={currentLocation}
+                  icon={{
+                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                  }}
+                  onClick={() => setSelectedMarker('current')}
+                />
+              )}
 
-            {/* Selected Location Display */}
-            {selectedLocation && (
-              <div className="p-4 bg-secondary rounded-lg border">
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-green-600 mt-1" />
-                  <div className="flex-1">
-                    <h3 className="font-semibold mb-2">{selectedLocation.name}</h3>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Latitude:</span>
-                        <p className="font-mono font-bold">{selectedLocation.lat.toFixed(6)}°</p>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">Longitude:</span>
-                        <p className="font-mono font-bold">{selectedLocation.lng.toFixed(6)}°</p>
-                      </div>
-                    </div>
-                    <a 
-                      href={`https://www.google.com/maps?q=${selectedLocation.lat},${selectedLocation.lng}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline mt-2 inline-block"
+              {/* Employee Location Markers */}
+              {locations.map((loc) => {
+                if (loc.latitude && loc.longitude) {
+                  const position = {
+                    lat: parseFloat(loc.latitude),
+                    lng: parseFloat(loc.longitude)
+                  };
+                  return (
+                    <Marker
+                      key={loc.id}
+                      position={position}
+                      icon={{
+                        url: loc.status === 'Active' 
+                          ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                          : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                      }}
+                      onClick={() => setSelectedMarker(loc.id)}
                     >
-                      View on Google Maps →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* All Employee Locations */}
-            {locations.length > 0 && (
-              <div className="space-y-2">
-                <h4 className="font-semibold text-sm text-muted-foreground">All Employee Locations</h4>
-                <div className="grid gap-2 max-h-64 overflow-y-auto">
-                  {locations.map((loc) => (
-                    loc.latitude && loc.longitude && (
-                      <div 
-                        key={loc.id} 
-                        className="p-3 bg-card rounded-lg border hover:border-primary cursor-pointer transition-colors"
-                        onClick={() => setSelectedLocation({
-                          lat: parseFloat(loc.latitude),
-                          lng: parseFloat(loc.longitude),
-                          name: `${loc.employee_name} - ${loc.role}`
-                        })}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className={`h-3 w-3 rounded-full ${loc.status === 'Active' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                            <span className="font-medium">{loc.employee_name}</span>
-                            <span className="text-xs text-muted-foreground">({loc.role})</span>
+                      {selectedMarker === loc.id && (
+                        <InfoWindow onCloseClick={() => setSelectedMarker(null)}>
+                          <div className="p-2">
+                            <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
+                            <p className="text-xs text-gray-600">{loc.role}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
+                                {loc.status}
+                              </span>
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {position.lat.toFixed(4)}, {position.lng.toFixed(4)}
+                            </p>
                           </div>
-                          <span className="text-xs font-mono text-muted-foreground">
-                            {parseFloat(loc.latitude).toFixed(4)}, {parseFloat(loc.longitude).toFixed(4)}
-                          </span>
-                        </div>
-                      </div>
-                    )
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+                        </InfoWindow>
+                      )}
+                    </Marker>
+                  );
+                }
+                return null;
+              })}
+
+              {/* Current Location Info Window */}
+              {selectedMarker === 'current' && currentLocation && (
+                <InfoWindow
+                  position={currentLocation}
+                  onCloseClick={() => setSelectedMarker(null)}
+                >
+                  <div className="p-2">
+                    <h3 className="font-semibold text-sm">{currentLocation.name || "Your Location"}</h3>
+                    <p className="text-xs text-gray-500">
+                      {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}
+                    </p>
+                  </div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          </LoadScript>
         </CardContent>
       </Card>
 
