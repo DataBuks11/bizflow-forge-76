@@ -9,29 +9,29 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Vintage 70s Cool Color Palette with Glass Effects */
-    --background: 210 45% 92%;
-    --foreground: 215 40% 20%;
+    /* Vintage 70s Warm Color Palette with Glass Effects */
+    --background: 36 45% 92%;
+    --foreground: 25 40% 20%;
 
-    --card: 210 60% 88% / 0.75;
-    --card-foreground: 215 40% 18%;
+    --card: 35 60% 88% / 0.75;
+    --card-foreground: 25 40% 18%;
 
-    --popover: 210 55% 90% / 0.85;
-    --popover-foreground: 215 40% 18%;
+    --popover: 35 55% 90% / 0.85;
+    --popover-foreground: 25 40% 18%;
 
-    /* Retro Blue Primary (70s inspired) */
-    --primary: 215 85% 55%;
-    --primary-foreground: 210 15% 98%;
+    /* Retro Orange-Brown Primary (70s inspired) */
+    --primary: 28 85% 52%;
+    --primary-foreground: 35 15% 98%;
 
-    /* Cool Gray Secondary */
-    --secondary: 215 25% 85% / 0.7;
-    --secondary-foreground: 215 40% 25%;
+    /* Warm Beige Secondary */
+    --secondary: 40 35% 85% / 0.7;
+    --secondary-foreground: 25 40% 25%;
 
-    --muted: 215 20% 88% / 0.6;
-    --muted-foreground: 215 15% 45%;
+    --muted: 40 30% 88% / 0.6;
+    --muted-foreground: 30 20% 45%;
 
-    /* Retro Cyan Accent (70s color) */
-    --accent: 195 75% 50%;
+    /* Retro Teal Accent (70s color) */
+    --accent: 172 65% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 8 78% 55%;
@@ -41,67 +41,67 @@ All colors MUST be HSL.
     --success: 145 65% 42%;
     --success-foreground: 0 0% 100%;
 
-    /* Retro Gold */
+    /* Retro Mustard Yellow */
     --warning: 45 95% 50%;
-    --warning-foreground: 215 40% 20%;
+    --warning-foreground: 25 40% 20%;
 
-    --border: 215 30% 75% / 0.4;
-    --input: 210 40% 95% / 0.6;
-    --ring: 215 85% 55% / 0.4;
+    --border: 35 40% 75% / 0.4;
+    --input: 35 50% 95% / 0.6;
+    --ring: 28 85% 52% / 0.4;
 
     --radius: 1.25rem;
 
     /* Sidebar with Vintage Glass Effect */
-    --sidebar-background: 210 45% 88% / 0.7;
-    --sidebar-foreground: 215 40% 22%;
-    --sidebar-primary: 215 85% 55%;
-    --sidebar-primary-foreground: 210 15% 98%;
-    --sidebar-accent: 215 85% 55% / 0.15;
-    --sidebar-accent-foreground: 215 40% 22%;
-    --sidebar-border: 215 30% 75% / 0.3;
-    --sidebar-ring: 215 85% 55% / 0.4;
+    --sidebar-background: 35 55% 88% / 0.7;
+    --sidebar-foreground: 25 40% 22%;
+    --sidebar-primary: 28 85% 52%;
+    --sidebar-primary-foreground: 35 15% 98%;
+    --sidebar-accent: 28 85% 52% / 0.15;
+    --sidebar-accent-foreground: 25 40% 22%;
+    --sidebar-border: 35 40% 75% / 0.3;
+    --sidebar-ring: 28 85% 52% / 0.4;
 
     /* Enhanced Glass Effects */
-    --glass-background: 210 50% 92% / 0.6;
-    --glass-border: 210 40% 80% / 0.4;
-    --glass-shadow: 0 12px 48px 0 rgba(59, 130, 246, 0.18);
+    --glass-background: 35 60% 92% / 0.6;
+    --glass-border: 35 50% 80% / 0.4;
+    --glass-shadow: 0 12px 48px 0 rgba(139, 99, 61, 0.18);
 
     /* Retro Color Charts */
-    --chart-1: 215 85% 55%;
-    --chart-2: 195 75% 50%;
-    --chart-3: 235 75% 60%;
-    --chart-4: 260 70% 60%;
+    --chart-1: 28 85% 52%;
+    --chart-2: 172 65% 45%;
+    --chart-3: 45 95% 50%;
+    --chart-4: 280 70% 60%;
     --chart-5: 8 78% 55%;
 
     /* Vintage Effects */
-    --retro-blue: 215 90% 58%;
-    --retro-navy: 230 50% 42%;
-    --retro-cyan: 195 85% 55%;
-    --retro-teal: 180 65% 45%;
-    --retro-slate: 215 30% 50%;
+    --retro-orange: 25 90% 58%;
+    --retro-brown: 28 45% 42%;
+    --retro-mustard: 45 95% 50%;
+    --retro-teal: 172 65% 45%;
+    --retro-olive: 75 40% 45%;
   }
 
   .dark {
     /* Dark Mode with Vintage Twist */
-    --background: 220 35% 12%;
-    --foreground: 210 25% 88%;
+    --background: 28 35% 12%;
+    --foreground: 35 25% 88%;
 
-    --card: 220 38% 18% / 0.75;
-    --card-foreground: 210 25% 88%;
+    --card: 28 38% 18% / 0.75;
+    --card-foreground: 35 25% 88%;
 
-    --popover: 220 38% 16% / 0.85;
-    --popover-foreground: 210 25% 88%;
+    --popover: 28 38% 16% / 0.85;
+    --popover-foreground: 35 25% 88%;
 
-    --primary: 215 85% 60%;
-    --primary-foreground: 220 15% 10%;
+    --primary: 28 85% 58%;
+    --primary-foreground: 28 15% 10%;
 
-    --secondary: 215 25% 22% / 0.7;
-    --secondary-foreground: 210 25% 88%;
+    --secondary: 30 30% 22% / 0.7;
+    --secondary-foreground: 35 25% 88%;
 
-    --muted: 215 20% 20% / 0.6;
-    --muted-foreground: 210 15% 58%;
+    --muted: 30 28% 20% / 0.6;
+    --muted-foreground: 35 18% 58%;
 
-    --accent: 195 75% 55%;
+    --accent: 172 65% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 8 78% 58%;
@@ -111,36 +111,36 @@ All colors MUST be HSL.
     --success-foreground: 0 0% 100%;
 
     --warning: 45 95% 55%;
-    --warning-foreground: 220 35% 12%;
+    --warning-foreground: 28 35% 12%;
 
-    --border: 215 20% 28% / 0.4;
-    --input: 220 25% 18% / 0.6;
-    --ring: 215 85% 60% / 0.4;
+    --border: 30 28% 28% / 0.4;
+    --input: 28 30% 18% / 0.6;
+    --ring: 28 85% 58% / 0.4;
 
-    --sidebar-background: 220 38% 15% / 0.7;
-    --sidebar-foreground: 210 25% 88%;
-    --sidebar-primary: 215 85% 60%;
-    --sidebar-primary-foreground: 220 15% 10%;
-    --sidebar-accent: 215 85% 60% / 0.15;
-    --sidebar-accent-foreground: 210 25% 88%;
-    --sidebar-border: 215 20% 28% / 0.3;
-    --sidebar-ring: 215 85% 60% / 0.4;
+    --sidebar-background: 28 38% 15% / 0.7;
+    --sidebar-foreground: 35 25% 88%;
+    --sidebar-primary: 28 85% 58%;
+    --sidebar-primary-foreground: 28 15% 10%;
+    --sidebar-accent: 28 85% 58% / 0.15;
+    --sidebar-accent-foreground: 35 25% 88%;
+    --sidebar-border: 30 28% 28% / 0.3;
+    --sidebar-ring: 28 85% 58% / 0.4;
 
-    --glass-background: 220 38% 16% / 0.6;
-    --glass-border: 215 25% 30% / 0.4;
+    --glass-background: 28 38% 16% / 0.6;
+    --glass-border: 30 32% 30% / 0.4;
     --glass-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.45);
 
-    --chart-1: 215 85% 60%;
-    --chart-2: 195 75% 55%;
-    --chart-3: 235 75% 65%;
-    --chart-4: 260 70% 65%;
+    --chart-1: 28 85% 58%;
+    --chart-2: 172 65% 50%;
+    --chart-3: 45 95% 55%;
+    --chart-4: 280 70% 65%;
     --chart-5: 8 78% 58%;
 
-    --retro-blue: 215 90% 65%;
-    --retro-navy: 230 50% 50%;
-    --retro-cyan: 195 85% 60%;
-    --retro-teal: 180 65% 50%;
-    --retro-slate: 215 30% 55%;
+    --retro-orange: 25 90% 62%;
+    --retro-brown: 28 45% 52%;
+    --retro-mustard: 45 95% 55%;
+    --retro-teal: 172 65% 50%;
+    --retro-olive: 75 40% 50%;
   }
 }
 
@@ -150,11 +150,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-gradient-to-br from-blue-100 via-sky-50 to-cyan-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 text-foreground min-h-screen font-sans;
+    @apply bg-gradient-to-br from-amber-100 via-orange-50 to-yellow-100 dark:from-stone-900 dark:via-amber-950 dark:to-orange-950 text-foreground min-h-screen font-sans;
     background-image: 
-      radial-gradient(circle at 20% 50%, hsl(210, 60%, 92%) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsl(215, 70%, 88%) 0%, transparent 50%),
-      radial-gradient(circle at 40% 20%, hsl(200, 55%, 90%) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, hsl(35, 60%, 92%) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(28, 70%, 88%) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, hsl(45, 55%, 90%) 0%, transparent 50%);
     position: relative;
   }
 
@@ -180,18 +180,18 @@ All colors MUST be HSL.
 @layer utilities {
   /* iOS 26 Glassmorphism Utilities */
   .glass {
-    @apply bg-blue-50/65 dark:bg-slate-900/65 backdrop-blur-xl border border-blue-100/40 dark:border-blue-900/40;
+    @apply bg-amber-50/65 dark:bg-stone-900/65 backdrop-blur-xl border border-amber-100/40 dark:border-amber-900/40;
     box-shadow: 
-      0 8px 32px 0 rgba(59, 130, 246, 0.12),
+      0 8px 32px 0 rgba(139, 99, 61, 0.12),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   }
   
   .glass-card {
-    @apply bg-blue-50/75 dark:bg-slate-900/75 backdrop-blur-2xl border-2 border-blue-100/50 dark:border-blue-900/50 shadow-xl rounded-2xl;
+    @apply bg-amber-50/75 dark:bg-stone-900/75 backdrop-blur-2xl border-2 border-amber-100/50 dark:border-amber-900/50 shadow-xl rounded-2xl;
     box-shadow: 
-      0 12px 48px 0 rgba(59, 130, 246, 0.18),
+      0 12px 48px 0 rgba(139, 99, 61, 0.18),
       inset 0 2px 0 0 rgba(255, 255, 255, 0.4),
-      0 0 0 1px rgba(59, 130, 246, 0.08);
+      0 0 0 1px rgba(139, 99, 61, 0.08);
   }
   
   .glass-hover {
@@ -202,29 +202,29 @@ All colors MUST be HSL.
   /* Vintage 1970s Effects */
   .retro-shadow {
     box-shadow: 
-      8px 8px 0px 0px hsl(225, 65%, 35%),
-      12px 12px 0px 0px hsl(215, 55%, 45%);
+      8px 8px 0px 0px hsl(28, 65%, 35%),
+      12px 12px 0px 0px hsl(28, 45%, 45%);
   }
 
   .retro-border {
     @apply border-4 border-primary rounded-3xl;
     box-shadow: 
-      inset 0 0 0 4px hsl(210, 60%, 88%),
-      inset 0 0 0 8px hsl(215, 85%, 55%);
+      inset 0 0 0 4px hsl(35, 60%, 88%),
+      inset 0 0 0 8px hsl(28, 85%, 52%);
   }
 
   .retro-gradient {
     background: linear-gradient(135deg, 
-      hsl(215, 85%, 55%) 0%, 
-      hsl(205, 75%, 60%) 50%, 
-      hsl(195, 85%, 60%) 100%);
+      hsl(28, 85%, 52%) 0%, 
+      hsl(35, 75%, 58%) 50%, 
+      hsl(45, 85%, 55%) 100%);
   }
 
   .vintage-glow {
     box-shadow: 
-      0 0 20px hsl(215, 85%, 55% / 0.4),
-      0 0 40px hsl(215, 85%, 55% / 0.2),
-      inset 0 0 20px hsl(210, 60%, 92% / 0.3);
+      0 0 20px hsl(28, 85%, 52% / 0.4),
+      0 0 40px hsl(28, 85%, 52% / 0.2),
+      inset 0 0 20px hsl(35, 60%, 92% / 0.3);
   }
 
   /* Combined Effects */
@@ -243,7 +243,7 @@ All colors MUST be HSL.
     height: 1px;
     background: linear-gradient(90deg, 
       transparent, 
-      hsl(215, 85%, 55% / 0.6), 
+      hsl(28, 85%, 52% / 0.6), 
       transparent);
   }
 
@@ -256,7 +256,7 @@ All colors MUST be HSL.
   .retro-hover:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 
-      0 16px 32px rgba(59, 130, 246, 0.25),
-      0 0 60px hsl(215, 85%, 55% / 0.3);
+      0 16px 32px rgba(139, 99, 61, 0.25),
+      0 0 60px hsl(28, 85%, 52% / 0.3);
   }
 }
