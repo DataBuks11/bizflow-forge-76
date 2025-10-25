@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { MapPin, Navigation, Locate } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,6 +27,14 @@ const LocationTracking = () => {
   const [lastCheckIn, setLastCheckIn] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number, name: string} | null>(null);
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
+  const [mapApiKey, setMapApiKey] = useState<string>('');
+  const isPlaceholderKey = (k?: string) => !k || k === 'YOUR_GOOGLE_MAPS_API_KEY';
+  useEffect(() => {
+    const envKey = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined)?.trim();
+    const stored = localStorage.getItem('gmaps_key') || '';
+    const initial = !isPlaceholderKey(envKey) ? (envKey as string) : stored;
+    setMapApiKey(initial);
+  }, []);
 
   const fetchLocations = async () => {
     try {
@@ -248,85 +257,118 @@ const LocationTracking = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}>
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              center={currentLocation || defaultCenter}
-              zoom={13}
-              options={{
-                zoomControl: true,
-                streetViewControl: false,
-                mapTypeControl: false,
-                fullscreenControl: true,
-              }}
-            >
-              {/* Current Location Marker */}
-              {currentLocation && (
-                <Marker
-                  position={currentLocation}
-                  icon={{
-                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-                  }}
-                  onClick={() => setSelectedMarker('current')}
+          {isPlaceholderKey(mapApiKey) ? (
+            <div className="space-y-4 p-4 rounded-lg border">
+              <p className="text-sm text-muted-foreground">
+                Enter a Google Maps Browser API key to load the live map. Restrict it to this domain in Google Cloud for safety.
+              </p>
+              <div className="flex gap-2 max-w-xl">
+                <Input
+                  placeholder="Paste Google Maps API key"
+                  value={mapApiKey}
+                  onChange={(e) => setMapApiKey(e.target.value.trim())}
                 />
-              )}
-
-              {/* Employee Location Markers */}
-              {locations.map((loc) => {
-                if (loc.latitude && loc.longitude) {
-                  const position = {
-                    lat: parseFloat(loc.latitude),
-                    lng: parseFloat(loc.longitude)
-                  };
-                  return (
-                    <Marker
-                      key={loc.id}
-                      position={position}
-                      icon={{
-                        url: loc.status === 'Active' 
-                          ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-                          : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-                      }}
-                      onClick={() => setSelectedMarker(loc.id)}
-                    >
-                      {selectedMarker === loc.id && (
-                        <InfoWindow onCloseClick={() => setSelectedMarker(null)}>
-                          <div className="p-2">
-                            <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
-                            <p className="text-xs text-gray-600">{loc.role}</p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
-                                {loc.status}
-                              </span>
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {position.lat.toFixed(4)}, {position.lng.toFixed(4)}
-                            </p>
-                          </div>
-                        </InfoWindow>
-                      )}
-                    </Marker>
-                  );
-                }
-                return null;
-              })}
-
-              {/* Current Location Info Window */}
-              {selectedMarker === 'current' && currentLocation && (
-                <InfoWindow
-                  position={currentLocation}
-                  onCloseClick={() => setSelectedMarker(null)}
+                <Button
+                  onClick={() => {
+                    if (isPlaceholderKey(mapApiKey)) {
+                      toast({ title: "Invalid API key", description: "Please paste a valid Google Maps API key.", variant: "destructive" });
+                      return;
+                    }
+                    localStorage.setItem('gmaps_key', mapApiKey);
+                    toast({ title: "Saved", description: "Map key saved for this browser." });
+                  }}
                 >
-                  <div className="p-2">
-                    <h3 className="font-semibold text-sm">{currentLocation.name || "Your Location"}</h3>
-                    <p className="text-xs text-gray-500">
-                      {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}
-                    </p>
-                  </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </LoadScript>
+                  Load Map
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Tip: You can also set VITE_GOOGLE_MAPS_API_KEY in your environment later; we’ll auto-use it when available.
+              </p>
+            </div>
+          ) : (
+            <LoadScript 
+              googleMapsApiKey={mapApiKey}
+              onError={() => toast({ title: "Maps failed to load", description: "Check your API key restrictions.", variant: "destructive" })}
+            >
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={currentLocation || defaultCenter}
+                zoom={13}
+                options={{
+                  zoomControl: true,
+                  streetViewControl: false,
+                  mapTypeControl: false,
+                  fullscreenControl: true,
+                }}
+              >
+                {/* Current Location Marker */}
+                {currentLocation && (
+                  <Marker
+                    position={currentLocation}
+                    icon={{
+                      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                    }}
+                    onClick={() => setSelectedMarker('current')}
+                  />
+                )}
+
+                {/* Employee Location Markers */}
+                {locations.map((loc) => {
+                  if (loc.latitude && loc.longitude) {
+                    const position = {
+                      lat: parseFloat(loc.latitude),
+                      lng: parseFloat(loc.longitude)
+                    };
+                    return (
+                      <Marker
+                        key={loc.id}
+                        position={position}
+                        icon={{
+                          url: loc.status === 'Active' 
+                            ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                            : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                        }}
+                        onClick={() => setSelectedMarker(loc.id)}
+                      >
+                        {selectedMarker === loc.id && (
+                          <InfoWindow onCloseClick={() => setSelectedMarker(null)}>
+                            <div className="p-2">
+                              <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
+                              <p className="text-xs text-gray-600">{loc.role}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
+                                  {loc.status}
+                                </span>
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {position.lat.toFixed(4)}, {position.lng.toFixed(4)}
+                              </p>
+                            </div>
+                          </InfoWindow>
+                        )}
+                      </Marker>
+                    );
+                  }
+                  return null;
+                })}
+
+                {/* Current Location Info Window */}
+                {selectedMarker === 'current' && currentLocation && (
+                  <InfoWindow
+                    position={currentLocation}
+                    onCloseClick={() => setSelectedMarker(null)}
+                  >
+                    <div className="p-2">
+                      <h3 className="font-semibold text-sm">{currentLocation.name || "Your Location"}</h3>
+                      <p className="text-xs text-gray-500">
+                        {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}
+                      </p>
+                    </div>
+                  </InfoWindow>
+                )}
+              </GoogleMap>
+            </LoadScript>
+          )}
         </CardContent>
       </Card>
 
