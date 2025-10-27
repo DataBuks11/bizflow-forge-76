@@ -9,141 +9,141 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Vintage 70s Color Palette - Mustard, Teal, Olive, Burnt Orange */
-    --background: 45 60% 92%;
-    --foreground: 30 40% 15%;
+    /* Cherry Blossom Palette - Soft Pink, Peach, Cream, Sage, Sky Blue */
+    --background: 340 50% 96%;
+    --foreground: 340 15% 20%;
 
-    --card: 45 70% 88% / 0.75;
-    --card-foreground: 30 40% 15%;
+    --card: 350 60% 94% / 0.75;
+    --card-foreground: 340 15% 20%;
 
-    --popover: 45 65% 90% / 0.85;
-    --popover-foreground: 30 40% 15%;
+    --popover: 350 55% 96% / 0.85;
+    --popover-foreground: 340 15% 20%;
 
-    /* Burnt Orange Primary */
-    --primary: 25 85% 55%;
+    /* Cherry Blossom Pink Primary */
+    --primary: 350 75% 70%;
     --primary-foreground: 0 0% 100%;
 
-    /* Mustard Yellow Secondary */
-    --secondary: 45 90% 60% / 0.7;
-    --secondary-foreground: 30 40% 15%;
+    /* Soft Peach Secondary */
+    --secondary: 20 80% 85% / 0.7;
+    --secondary-foreground: 340 15% 20%;
 
-    --muted: 45 40% 85% / 0.6;
-    --muted-foreground: 30 30% 40%;
+    --muted: 340 30% 92% / 0.6;
+    --muted-foreground: 340 10% 45%;
 
-    /* Teal Accent */
-    --accent: 180 70% 45%;
+    /* Sage Green Accent */
+    --accent: 145 25% 65%;
     --accent-foreground: 0 0% 100%;
 
     /* Cherry Red Destructive */
-    --destructive: 355 85% 55%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Olive Green Success */
-    --success: 75 45% 42%;
+    /* Soft Green Success */
+    --success: 140 40% 55%;
     --success-foreground: 0 0% 100%;
 
-    /* Sky Blue Info/Warning */
-    --warning: 200 85% 60%;
+    /* Sky Blue Warning */
+    --warning: 200 80% 70%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 45 50% 75% / 0.4;
-    --input: 45 60% 95% / 0.6;
-    --ring: 25 85% 55% / 0.4;
+    --border: 340 40% 88% / 0.4;
+    --input: 350 50% 98% / 0.6;
+    --ring: 350 75% 70% / 0.4;
 
     --radius: 1.25rem;
 
-    /* Sidebar with Vintage Glass Effect */
-    --sidebar-background: 45 65% 88% / 0.7;
-    --sidebar-foreground: 30 40% 15%;
-    --sidebar-primary: 25 85% 55%;
+    /* Sidebar with Cherry Blossom Glass Effect */
+    --sidebar-background: 350 55% 94% / 0.7;
+    --sidebar-foreground: 340 15% 20%;
+    --sidebar-primary: 350 75% 70%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 85% 55% / 0.15;
-    --sidebar-accent-foreground: 30 40% 15%;
-    --sidebar-border: 45 50% 75% / 0.3;
-    --sidebar-ring: 25 85% 55% / 0.4;
+    --sidebar-accent: 350 75% 70% / 0.15;
+    --sidebar-accent-foreground: 340 15% 20%;
+    --sidebar-border: 340 40% 88% / 0.3;
+    --sidebar-ring: 350 75% 70% / 0.4;
 
     /* Enhanced Glass Effects */
-    --glass-background: 45 70% 92% / 0.6;
-    --glass-border: 45 60% 80% / 0.4;
-    --glass-shadow: 0 12px 48px 0 rgba(180, 120, 50, 0.18);
+    --glass-background: 350 60% 96% / 0.6;
+    --glass-border: 340 50% 92% / 0.4;
+    --glass-shadow: 0 12px 48px 0 rgba(255, 192, 203, 0.18);
 
-    /* Retro Color Charts */
-    --chart-1: 25 85% 55%;
-    --chart-2: 180 70% 45%;
-    --chart-3: 45 90% 60%;
-    --chart-4: 75 45% 42%;
-    --chart-5: 355 85% 55%;
+    /* Cherry Blossom Color Charts */
+    --chart-1: 350 75% 70%;
+    --chart-2: 145 25% 65%;
+    --chart-3: 20 80% 75%;
+    --chart-4: 140 40% 55%;
+    --chart-5: 200 80% 70%;
 
-    /* Vintage 1970s Effects */
-    --retro-orange: 25 85% 55%;
-    --retro-mustard: 45 90% 60%;
-    --retro-teal: 180 70% 45%;
-    --retro-olive: 75 45% 42%;
-    --retro-cherry: 355 85% 55%;
-    --retro-sky: 200 85% 60%;
+    /* Cherry Blossom Vintage Effects */
+    --retro-pink: 350 75% 70%;
+    --retro-peach: 20 80% 75%;
+    --retro-sage: 145 25% 65%;
+    --retro-cream: 40 60% 90%;
+    --retro-cherry: 0 75% 60%;
+    --retro-sky: 200 80% 70%;
   }
 
   .dark {
-    /* Dark Mode with Vintage 1970s Twist */
-    --background: 30 35% 10%;
-    --foreground: 45 30% 90%;
+    /* Dark Mode with Cherry Blossom Twist */
+    --background: 340 30% 12%;
+    --foreground: 350 20% 88%;
 
-    --card: 30 38% 15% / 0.75;
-    --card-foreground: 45 30% 90%;
+    --card: 340 35% 16% / 0.75;
+    --card-foreground: 350 20% 88%;
 
-    --popover: 30 38% 14% / 0.85;
-    --popover-foreground: 45 30% 90%;
+    --popover: 340 35% 14% / 0.85;
+    --popover-foreground: 350 20% 88%;
 
-    --primary: 25 85% 60%;
+    --primary: 350 70% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 90% 65% / 0.7;
-    --secondary-foreground: 30 35% 10%;
+    --secondary: 20 75% 75% / 0.7;
+    --secondary-foreground: 340 30% 12%;
 
-    --muted: 30 28% 18% / 0.6;
-    --muted-foreground: 45 20% 60%;
+    --muted: 340 25% 20% / 0.6;
+    --muted-foreground: 340 15% 60%;
 
-    --accent: 180 70% 50%;
+    --accent: 145 20% 55%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 355 85% 60%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 75 45% 48%;
+    --success: 140 35% 48%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 200 85% 65%;
+    --warning: 200 75% 65%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 30 28% 25% / 0.4;
-    --input: 30 30% 16% / 0.6;
-    --ring: 25 85% 60% / 0.4;
+    --border: 340 25% 28% / 0.4;
+    --input: 340 28% 18% / 0.6;
+    --ring: 350 70% 65% / 0.4;
 
-    --sidebar-background: 30 38% 12% / 0.7;
-    --sidebar-foreground: 45 30% 90%;
-    --sidebar-primary: 25 85% 60%;
+    --sidebar-background: 340 35% 14% / 0.7;
+    --sidebar-foreground: 350 20% 88%;
+    --sidebar-primary: 350 70% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 85% 60% / 0.15;
-    --sidebar-accent-foreground: 45 30% 90%;
-    --sidebar-border: 30 28% 25% / 0.3;
-    --sidebar-ring: 25 85% 60% / 0.4;
+    --sidebar-accent: 350 70% 65% / 0.15;
+    --sidebar-accent-foreground: 350 20% 88%;
+    --sidebar-border: 340 25% 28% / 0.3;
+    --sidebar-ring: 350 70% 65% / 0.4;
 
-    --glass-background: 30 38% 14% / 0.6;
-    --glass-border: 30 32% 28% / 0.4;
+    --glass-background: 340 35% 16% / 0.6;
+    --glass-border: 340 30% 30% / 0.4;
     --glass-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.45);
 
-    --chart-1: 25 85% 60%;
-    --chart-2: 180 70% 50%;
-    --chart-3: 45 90% 65%;
-    --chart-4: 75 45% 48%;
-    --chart-5: 355 85% 60%;
+    --chart-1: 350 70% 65%;
+    --chart-2: 145 20% 55%;
+    --chart-3: 20 75% 70%;
+    --chart-4: 140 35% 48%;
+    --chart-5: 200 75% 65%;
 
-    --retro-orange: 25 85% 60%;
-    --retro-mustard: 45 90% 65%;
-    --retro-teal: 180 70% 50%;
-    --retro-olive: 75 45% 48%;
-    --retro-cherry: 355 85% 60%;
-    --retro-sky: 200 85% 65%;
+    --retro-pink: 350 70% 65%;
+    --retro-peach: 20 75% 70%;
+    --retro-sage: 145 20% 55%;
+    --retro-cream: 40 50% 75%;
+    --retro-cherry: 0 70% 55%;
+    --retro-sky: 200 75% 65%;
   }
 }
 
@@ -153,11 +153,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-gradient-to-br from-yellow-100 via-orange-50 to-teal-50 dark:from-stone-950 dark:via-orange-950 dark:to-teal-950 text-foreground min-h-screen font-sans;
+    @apply bg-gradient-to-br from-pink-50 via-rose-50 to-blue-50 dark:from-stone-950 dark:via-rose-950 dark:to-slate-950 text-foreground min-h-screen font-sans;
     background-image: 
-      radial-gradient(circle at 20% 50%, hsl(45, 90%, 85%) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsl(25, 85%, 88%) 0%, transparent 50%),
-      radial-gradient(circle at 40% 20%, hsl(180, 70%, 90%) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, hsl(350, 75%, 92%) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(20, 80%, 90%) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, hsl(200, 80%, 92%) 0%, transparent 50%);
     position: relative;
   }
 
@@ -183,18 +183,18 @@ All colors MUST be HSL.
 @layer utilities {
   /* iOS 26 Glassmorphism Utilities */
   .glass {
-    @apply bg-yellow-50/65 dark:bg-stone-900/65 backdrop-blur-xl border border-yellow-100/40 dark:border-orange-900/40;
+    @apply bg-pink-50/65 dark:bg-stone-900/65 backdrop-blur-xl border border-pink-100/40 dark:border-rose-900/40;
     box-shadow: 
-      0 8px 32px 0 rgba(180, 120, 50, 0.12),
+      0 8px 32px 0 rgba(255, 192, 203, 0.12),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   }
   
   .glass-card {
-    @apply bg-yellow-50/75 dark:bg-stone-900/75 backdrop-blur-2xl border-2 border-orange-100/50 dark:border-teal-900/50 shadow-xl rounded-3xl;
+    @apply bg-pink-50/75 dark:bg-stone-900/75 backdrop-blur-2xl border-2 border-rose-100/50 dark:border-blue-900/50 shadow-xl rounded-3xl;
     box-shadow: 
-      0 12px 48px 0 rgba(180, 120, 50, 0.18),
+      0 12px 48px 0 rgba(255, 192, 203, 0.18),
       inset 0 2px 0 0 rgba(255, 255, 255, 0.4),
-      0 0 0 1px rgba(180, 120, 50, 0.08);
+      0 0 0 1px rgba(255, 192, 203, 0.08);
   }
   
   .glass-hover {
@@ -202,32 +202,32 @@ All colors MUST be HSL.
     transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  /* Vintage 1970s Effects */
+  /* Cherry Blossom Vintage Effects */
   .retro-shadow {
     box-shadow: 
-      8px 8px 0px 0px hsl(25, 85%, 40%),
-      12px 12px 0px 0px hsl(45, 90%, 50%);
+      8px 8px 0px 0px hsl(350, 75%, 60%),
+      12px 12px 0px 0px hsl(20, 80%, 75%);
   }
 
   .retro-border {
     @apply border-4 border-primary rounded-3xl;
     box-shadow: 
-      inset 0 0 0 4px hsl(45, 90%, 85%),
-      inset 0 0 0 8px hsl(180, 70%, 45%);
+      inset 0 0 0 4px hsl(20, 80%, 90%),
+      inset 0 0 0 8px hsl(145, 25%, 75%);
   }
 
   .retro-gradient {
     background: linear-gradient(135deg, 
-      hsl(25, 85%, 55%) 0%, 
-      hsl(45, 90%, 60%) 50%, 
-      hsl(180, 70%, 45%) 100%);
+      hsl(350, 75%, 70%) 0%, 
+      hsl(20, 80%, 75%) 50%, 
+      hsl(200, 80%, 70%) 100%);
   }
 
   .vintage-glow {
     box-shadow: 
-      0 0 20px hsl(25, 85%, 55% / 0.4),
-      0 0 40px hsl(355, 85%, 55% / 0.2),
-      inset 0 0 20px hsl(45, 90%, 90% / 0.3);
+      0 0 20px hsl(350, 75%, 70% / 0.4),
+      0 0 40px hsl(0, 75%, 60% / 0.2),
+      inset 0 0 20px hsl(350, 60%, 95% / 0.3);
   }
 
   /* Combined Effects */
@@ -246,7 +246,7 @@ All colors MUST be HSL.
     height: 1px;
     background: linear-gradient(90deg, 
       transparent, 
-      hsl(180, 70%, 45% / 0.6), 
+      hsl(350, 75%, 70% / 0.6), 
       transparent);
   }
 
@@ -259,7 +259,7 @@ All colors MUST be HSL.
   .retro-hover:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 
-      0 16px 32px rgba(180, 120, 50, 0.25),
-      0 0 60px hsl(25, 85%, 55% / 0.3);
+      0 16px 32px rgba(255, 192, 203, 0.25),
+      0 0 60px hsl(350, 75%, 70% / 0.3);
   }
 }
