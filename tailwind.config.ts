@@ -72,19 +72,10 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        retro: {
-          pink: "hsl(var(--retro-pink))",
-          peach: "hsl(var(--retro-peach))",
-          sage: "hsl(var(--retro-sage))",
-          cream: "hsl(var(--retro-cream))",
-          cherry: "hsl(var(--retro-cherry))",
-          sky: "hsl(var(--retro-sky))",
-        },
       },
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'sans-serif'],
-        heading: ['Righteous', 'Archivo Black', 'sans-serif'],
-        retro: ['Koulen', 'Righteous', 'sans-serif'],
+        sans: ['Poppins', 'Inter', 'Nunito Sans', 'system-ui', 'sans-serif'],
+        heading: ['Poppins', 'Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -100,11 +91,9 @@ export default {
         '4xl': '128px',
       },
       boxShadow: {
-        'glass': '0 12px 48px 0 rgba(255, 192, 203, 0.18)',
-        'glass-dark': '0 12px 48px 0 rgba(0, 0, 0, 0.45)',
-        'retro': '8px 8px 0px 0px hsl(350, 75%, 60%)',
-        'retro-lg': '12px 12px 0px 0px hsl(20, 80%, 75%)',
-        'vintage': '0 0 40px hsl(350, 75%, 70% / 0.3)',
+        'glass': '0 4px 20px rgba(0, 0, 0, 0.05)',
+        'glass-hover': '0 4px 20px rgba(0, 0, 0, 0.05), 0 0 30px rgba(58, 123, 213, 0.2)',
+        'glass-dark': '0 4px 20px rgba(0, 0, 0, 0.3)',
       },
       keyframes: {
         "accordion-down": {
@@ -126,19 +115,21 @@ export default {
         "glow-pulse": {
           "0%, 100%": {
             opacity: "1",
-            boxShadow: "0 0 20px hsl(350, 75%, 70% / 0.4), 0 0 30px hsl(200, 80%, 70% / 0.2)",
+            boxShadow: "0 0 20px rgba(58, 123, 213, 0.2)",
           },
           "50%": {
-            opacity: "0.8",
-            boxShadow: "0 0 40px hsl(350, 75%, 70% / 0.6), 0 0 50px hsl(0, 75%, 60% / 0.3)",
+            opacity: "0.9",
+            boxShadow: "0 0 30px rgba(58, 123, 213, 0.3)",
           },
         },
-        "retro-slide": {
+        "fade-in": {
           "0%": {
-            transform: "translateX(-100%)",
+            opacity: "0",
+            transform: "translateY(10px)",
           },
           "100%": {
-            transform: "translateX(100%)",
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
       },
@@ -146,7 +137,7 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
-        "retro-slide": "retro-slide 8s linear infinite",
+        "fade-in": "fade-in 0.5s ease-out",
       },
     },
   },
