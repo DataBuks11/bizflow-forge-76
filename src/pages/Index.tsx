@@ -1,9 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Bell, Settings, Search, TrendingUp, Users, DollarSign, Activity } from "lucide-react";
+import { useState } from "react";
 
 const Index = () => {
+  const [notifications] = useState([
+    { id: 1, title: "New user signup", message: "John Doe just created an account", time: "2 mins ago", unread: true },
+    { id: 2, title: "Payment received", message: "Invoice #1234 has been paid", time: "15 mins ago", unread: true },
+    { id: 3, title: "Report generated", message: "Monthly sales report is ready", time: "1 hour ago", unread: false },
+    { id: 4, title: "System update", message: "System maintenance completed", time: "3 hours ago", unread: false },
+  ]);
+
+  const unreadCount = notifications.filter(n => n.unread).length;
+
   return (
     <div className="min-h-screen relative">
       {/* Fixed Navigation */}
@@ -17,9 +28,51 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="glass-hover rounded-full">
-              <Bell className="h-5 w-5" />
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="glass-hover rounded-full relative">
+                  <Bell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-white text-xs flex items-center justify-center rounded-full animate-glow-pulse">
+                      {unreadCount}
+                    </span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 glass-card p-0 pointer-events-auto" align="end">
+                <div className="p-4 border-b border-border/50">
+                  <h3 className="font-semibold">Notifications</h3>
+                  <p className="text-sm text-muted-foreground">{unreadCount} unread messages</p>
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`p-4 border-b border-border/30 hover:bg-muted/30 transition-colors cursor-pointer ${
+                        notification.unread ? 'bg-primary/5' : ''
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        {notification.unread && (
+                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm">{notification.title}</p>
+                          <p className="text-sm text-muted-foreground truncate">{notification.message}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{notification.time}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 border-t border-border/50">
+                  <Button variant="ghost" className="w-full text-sm">
+                    View all notifications
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+            
             <Button variant="ghost" size="icon" className="glass-hover rounded-full">
               <Settings className="h-5 w-5" />
             </Button>

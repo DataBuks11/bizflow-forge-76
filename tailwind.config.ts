@@ -74,8 +74,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Poppins', 'Inter', 'Nunito Sans', 'system-ui', 'sans-serif'],
-        heading: ['Poppins', 'Inter', 'sans-serif'],
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        heading: ['Manrope', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
