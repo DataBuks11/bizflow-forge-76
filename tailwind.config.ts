@@ -74,8 +74,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Raleway', 'system-ui', 'sans-serif'],
-        heading: ['Raleway', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
