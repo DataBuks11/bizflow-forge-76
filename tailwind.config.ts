@@ -74,8 +74,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Manrope', 'system-ui', 'sans-serif'],
-        heading: ['Manrope', 'sans-serif'],
+        sans: ['Raleway', 'system-ui', 'sans-serif'],
+        heading: ['Raleway', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
