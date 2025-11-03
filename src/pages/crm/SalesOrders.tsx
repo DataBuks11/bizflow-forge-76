@@ -85,7 +85,7 @@ const SalesOrders = () => {
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{salesOrders.length}</div>
+            <div className="text-2xl font-bold text-foreground">{salesOrders.length}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -96,7 +96,7 @@ const SalesOrders = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{totalValue.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">₹{totalValue.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">All orders</p>
           </CardContent>
         </Card>
@@ -107,7 +107,7 @@ const SalesOrders = () => {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pendingOrders}</div>
+            <div className="text-2xl font-bold text-foreground">{pendingOrders}</div>
             <p className="text-xs text-warning">Needs attention</p>
           </CardContent>
         </Card>
@@ -118,7 +118,7 @@ const SalesOrders = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-foreground">
               {salesOrders.filter(o => o.status === 'Delivered').length}
             </div>
             <p className="text-xs text-success">Completed</p>

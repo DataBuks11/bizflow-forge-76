@@ -78,7 +78,7 @@ const Expenses = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{totalExpenses.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">₹{totalExpenses.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -89,7 +89,7 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{pendingTotal.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">₹{pendingTotal.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">{pendingExpenses.length} requests</p>
           </CardContent>
         </Card>
@@ -100,7 +100,7 @@ const Expenses = () => {
             <TrendingUp className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{approvedTotal.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">₹{approvedTotal.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">{approvedExpenses.length} requests</p>
           </CardContent>
         </Card>
@@ -111,7 +111,7 @@ const Expenses = () => {
             <AlertCircle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{rejectedTotal.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">₹{rejectedTotal.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">{rejectedExpenses.length} requests</p>
           </CardContent>
         </Card>

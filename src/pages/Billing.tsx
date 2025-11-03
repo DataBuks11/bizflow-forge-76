@@ -62,15 +62,15 @@ const Billing = () => {
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 backdrop-blur-xl bg-white/60 dark:bg-gray-800/60 rounded-xl border border-white/30 dark:border-gray-700/30">
                 <p className="text-sm text-muted-foreground">Total Invoiced</p>
-                <p className="text-2xl font-bold">₹{totalInvoiced.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-foreground">₹{totalInvoiced.toLocaleString()}</p>
               </div>
               <div className="text-center p-4 backdrop-blur-xl bg-white/60 dark:bg-gray-800/60 rounded-xl border border-white/30 dark:border-gray-700/30">
                 <p className="text-sm text-muted-foreground">Paid</p>
-                <p className="text-2xl font-bold text-success">₹{totalPaid.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-foreground">₹{totalPaid.toLocaleString()}</p>
               </div>
               <div className="text-center p-4 backdrop-blur-xl bg-white/60 dark:bg-gray-800/60 rounded-xl border border-white/30 dark:border-gray-700/30">
                 <p className="text-sm text-muted-foreground">Pending</p>
-                <p className="text-2xl font-bold text-warning">₹{totalPending.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-foreground">₹{totalPending.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>

@@ -81,7 +81,7 @@ const Quotations = () => {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{quotations.length}</div>
+            <div className="text-2xl font-bold text-foreground">{quotations.length}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -92,7 +92,7 @@ const Quotations = () => {
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-foreground">
               ₹{quotations.reduce((sum, q) => sum + (q.amount || 0), 0).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">All quotations</p>
@@ -105,7 +105,7 @@ const Quotations = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-foreground">
               {quotations.filter(q => q.status === 'Pending').length}
             </div>
             <p className="text-xs text-muted-foreground">Awaiting response</p>

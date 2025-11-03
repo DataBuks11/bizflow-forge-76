@@ -142,7 +142,7 @@ const Attendance = () => {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{attendanceData.length}</div>
+            <div className="text-2xl font-bold text-foreground">{attendanceData.length}</div>
           </CardContent>
         </Card>
       </div>

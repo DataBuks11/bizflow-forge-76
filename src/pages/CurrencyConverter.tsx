@@ -121,7 +121,7 @@ const CurrencyConverter = () => {
                   Indian Rupee (INR)
                 </label>
                 <div className="p-4 rounded-xl backdrop-blur-xl bg-gradient-to-r from-success/10 to-accent/10 border border-success/30">
-                  <p className="text-3xl font-bold text-success">
+                  <p className="text-3xl font-bold text-foreground">
                     ₹{convertedAmount.toFixed(2)}
                   </p>
                 </div>

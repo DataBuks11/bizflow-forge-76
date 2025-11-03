@@ -65,7 +65,7 @@ const SalesTarget = () => {
             <Target className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalTarget.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">${totalTarget.toLocaleString()}</div>
             <Progress value={teamPercentage} className="mt-2" />
             <p className="text-xs text-muted-foreground mt-2">{teamPercentage}% achieved</p>
           </CardContent>
@@ -77,7 +77,7 @@ const SalesTarget = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalAchieved.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">${totalAchieved.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-2">{teamPercentage}% of target</p>
           </CardContent>
         </Card>
@@ -88,7 +88,7 @@ const SalesTarget = () => {
             <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{topPerformer?.employee_name || "N/A"}</div>
+            <div className="text-2xl font-bold text-foreground">{topPerformer?.employee_name || "N/A"}</div>
             <p className="text-xs text-muted-foreground mt-2">{topPerformer?.percentage || 0}% target achieved</p>
           </CardContent>
         </Card>

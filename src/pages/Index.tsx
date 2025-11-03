@@ -121,7 +121,7 @@ const Index = () => {
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                <p className="text-2xl font-semibold">{stat.value}</p>
+                <p className="text-2xl font-semibold text-foreground">{stat.value}</p>
               </CardContent>
             </Card>
           ))}
