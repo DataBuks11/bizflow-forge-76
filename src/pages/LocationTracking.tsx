@@ -1,40 +1,60 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { MapPin, Navigation, Locate } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// Fix Leaflet default marker icons
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
+
+// Custom icons for different marker types
+const currentLocationIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const activeLocationIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const inactiveLocationIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 // Default location: Ujjwal Nagar, Nagpur
-const defaultCenter = {
-  lat: 21.1458,
-  lng: 79.0882,
-  name: "Ujjwal Nagar, Nagpur"
-};
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '500px'
-};
+const defaultCenter: [number, number] = [21.1458, 79.0882];
+const defaultCenterName = "Ujjwal Nagar, Nagpur";
 
 const LocationTracking = () => {
   const [locations, setLocations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number, name?: string} | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<{coords: [number, number], name: string} | null>(null);
   const [lastCheckIn, setLastCheckIn] = useState<string>("");
-  const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number, name: string} | null>(null);
-  const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
-  const [mapApiKey, setMapApiKey] = useState<string>('');
-  const isPlaceholderKey = (k?: string) => !k || k === 'YOUR_GOOGLE_MAPS_API_KEY';
-  useEffect(() => {
-    const envKey = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined)?.trim();
-    const stored = localStorage.getItem('gmaps_key') || '';
-    const initial = !isPlaceholderKey(envKey) ? (envKey as string) : stored;
-    setMapApiKey(initial);
-  }, []);
+  const [selectedLocation, setSelectedLocation] = useState<{coords: [number, number], name: string} | null>(null);
 
   const fetchLocations = async () => {
     try {
@@ -58,23 +78,21 @@ const LocationTracking = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const newLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+          setCurrentLocation({
+            coords: [position.coords.latitude, position.coords.longitude],
             name: "Your Current Location"
-          };
-          setCurrentLocation(newLocation);
+          });
         },
         (error) => {
           console.error("Error getting location:", error);
           // Use default location if geolocation fails
           setCurrentLocation({
-            ...defaultCenter,
-            name: defaultCenter.name
+            coords: defaultCenter,
+            name: defaultCenterName
           });
           toast({ 
             title: "Using Default Location", 
-            description: `Using ${defaultCenter.name} as default location`, 
+            description: `Using ${defaultCenterName} as default location`, 
           });
         },
         {
@@ -85,8 +103,8 @@ const LocationTracking = () => {
       );
     } else {
       setCurrentLocation({
-        ...defaultCenter,
-        name: defaultCenter.name
+        coords: defaultCenter,
+        name: defaultCenterName
       });
     }
   }, []);
@@ -129,12 +147,10 @@ const LocationTracking = () => {
           if (error) throw error;
 
           setLastCheckIn(currentTime);
-          const newLocation = {
-            lat: lat,
-            lng: lng,
+          setCurrentLocation({
+            coords: [lat, lng],
             name: "Your Current Location"
-          };
-          setCurrentLocation(newLocation);
+          });
           
           toast({ 
             title: "Success", 
@@ -166,9 +182,9 @@ const LocationTracking = () => {
             employee_id: employee.id,
             employee_name: employee.name,
             role: employee.role,
-            latitude: defaultCenter.lat,
-            longitude: defaultCenter.lng,
-            location: `${defaultCenter.lat.toFixed(4)}, ${defaultCenter.lng.toFixed(4)} (${defaultCenter.name})`,
+            latitude: defaultCenter[0],
+            longitude: defaultCenter[1],
+            location: `${defaultCenter[0].toFixed(4)}, ${defaultCenter[1].toFixed(4)} (${defaultCenterName})`,
             status: "Active",
           }]);
 
@@ -176,8 +192,8 @@ const LocationTracking = () => {
 
           setLastCheckIn(currentTime);
           setCurrentLocation({
-            ...defaultCenter,
-            name: defaultCenter.name
+            coords: defaultCenter,
+            name: defaultCenterName
           });
           
           toast({ 
@@ -241,7 +257,7 @@ const LocationTracking = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Location Tracking</h1>
-          <p className="text-muted-foreground">Real-time employee location monitoring</p>
+          <p className="text-muted-foreground">Real-time employee location monitoring - Nagpur Region</p>
         </div>
         <Button onClick={fetchLocations}>
           <Navigation className="h-4 w-4 mr-2" />
@@ -249,126 +265,74 @@ const LocationTracking = () => {
         </Button>
       </div>
 
-      <Card>
+      <Card id="location-map">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Locate className="h-5 w-5" />
-            Live Location Map
+            Live Location Map - Nagpur Region
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {isPlaceholderKey(mapApiKey) ? (
-            <div className="space-y-4 p-4 rounded-lg border">
-              <p className="text-sm text-muted-foreground">
-                Enter a Google Maps Browser API key to load the live map. Restrict it to this domain in Google Cloud for safety.
-              </p>
-              <div className="flex gap-2 max-w-xl">
-                <Input
-                  placeholder="Paste Google Maps API key"
-                  value={mapApiKey}
-                  onChange={(e) => setMapApiKey(e.target.value.trim())}
-                />
-                <Button
-                  onClick={() => {
-                    if (isPlaceholderKey(mapApiKey)) {
-                      toast({ title: "Invalid API key", description: "Please paste a valid Google Maps API key.", variant: "destructive" });
-                      return;
-                    }
-                    localStorage.setItem('gmaps_key', mapApiKey);
-                    toast({ title: "Saved", description: "Map key saved for this browser." });
-                  }}
-                >
-                  Load Map
-                </Button>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Tip: You can also set VITE_GOOGLE_MAPS_API_KEY in your environment later; we’ll auto-use it when available.
-              </p>
-            </div>
-          ) : (
-            <LoadScript 
-              googleMapsApiKey={mapApiKey}
-              onError={() => toast({ title: "Maps failed to load", description: "Check your API key restrictions.", variant: "destructive" })}
+          <div style={{ height: "500px", width: "100%", borderRadius: "8px", overflow: "hidden" }}>
+            <MapContainer
+              center={currentLocation?.coords || defaultCenter}
+              zoom={13}
+              style={{ height: "100%", width: "100%" }}
+              scrollWheelZoom={true}
             >
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                center={currentLocation || defaultCenter}
-                zoom={13}
-                options={{
-                  zoomControl: true,
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                  fullscreenControl: true,
-                }}
-              >
-                {/* Current Location Marker */}
-                {currentLocation && (
-                  <Marker
-                    position={currentLocation}
-                    icon={{
-                      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-                    }}
-                    onClick={() => setSelectedMarker('current')}
-                  />
-                )}
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
 
-                {/* Employee Location Markers */}
-                {locations.map((loc) => {
-                  if (loc.latitude && loc.longitude) {
-                    const position = {
-                      lat: parseFloat(loc.latitude),
-                      lng: parseFloat(loc.longitude)
-                    };
-                    return (
-                      <Marker
-                        key={loc.id}
-                        position={position}
-                        icon={{
-                          url: loc.status === 'Active' 
-                            ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-                            : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-                        }}
-                        onClick={() => setSelectedMarker(loc.id)}
-                      >
-                        {selectedMarker === loc.id && (
-                          <InfoWindow onCloseClick={() => setSelectedMarker(null)}>
-                            <div className="p-2">
-                              <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
-                              <p className="text-xs text-gray-600">{loc.role}</p>
-                              <p className="text-xs text-gray-500 mt-1">
-                                Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
-                                  {loc.status}
-                                </span>
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {position.lat.toFixed(4)}, {position.lng.toFixed(4)}
-                              </p>
-                            </div>
-                          </InfoWindow>
-                        )}
-                      </Marker>
-                    );
-                  }
-                  return null;
-                })}
-
-                {/* Current Location Info Window */}
-                {selectedMarker === 'current' && currentLocation && (
-                  <InfoWindow
-                    position={currentLocation}
-                    onCloseClick={() => setSelectedMarker(null)}
-                  >
+              {/* Current Location Marker */}
+              {currentLocation && (
+                <Marker position={currentLocation.coords} icon={currentLocationIcon}>
+                  <Popup>
                     <div className="p-2">
-                      <h3 className="font-semibold text-sm">{currentLocation.name || "Your Location"}</h3>
+                      <h3 className="font-semibold text-sm">{currentLocation.name}</h3>
                       <p className="text-xs text-gray-500">
-                        {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}
+                        {currentLocation.coords[0].toFixed(4)}, {currentLocation.coords[1].toFixed(4)}
                       </p>
                     </div>
-                  </InfoWindow>
-                )}
-              </GoogleMap>
-            </LoadScript>
-          )}
+                  </Popup>
+                </Marker>
+              )}
+
+              {/* Employee Location Markers */}
+              {locations.map((loc) => {
+                if (loc.latitude && loc.longitude) {
+                  const position: [number, number] = [parseFloat(loc.latitude), parseFloat(loc.longitude)];
+                  return (
+                    <Marker
+                      key={loc.id}
+                      position={position}
+                      icon={loc.status === 'Active' ? activeLocationIcon : inactiveLocationIcon}
+                    >
+                      <Popup>
+                        <div className="p-2">
+                          <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
+                          <p className="text-xs text-gray-600">{loc.role}</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
+                              {loc.status}
+                            </span>
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {position[0].toFixed(4)}, {position[1].toFixed(4)}
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            {new Date(loc.updated_at).toLocaleString()}
+                          </p>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  );
+                }
+                return null;
+              })}
+            </MapContainer>
+          </div>
         </CardContent>
       </Card>
 
@@ -393,7 +357,7 @@ const LocationTracking = () => {
               {currentLocation && (
                 <>
                   <p className="text-sm text-muted-foreground">
-                    Location: {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}
+                    Location: {currentLocation.coords[0].toFixed(4)}, {currentLocation.coords[1].toFixed(4)}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {currentLocation.name}
@@ -454,15 +418,14 @@ const LocationTracking = () => {
             onClick={() => {
               if (row.latitude && row.longitude) {
                 setSelectedLocation({
-                  lat: parseFloat(row.latitude),
-                  lng: parseFloat(row.longitude),
+                  coords: [parseFloat(row.latitude), parseFloat(row.longitude)],
                   name: `${row.employee_name} - ${row.role}`
                 });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('location-map')?.scrollIntoView({ behavior: 'smooth' });
               }
             }}
           >
-            View Coordinates
+            View on Map
           </Button>
         )}
       />
