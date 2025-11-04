@@ -143,7 +143,7 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
     <aside className="w-64 backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border-r border-white/30 dark:border-gray-700/30 flex flex-col shadow-lg">
       <div className="p-6 border-b border-white/20 dark:border-gray-700/20 flex items-center justify-between">
         <h1 className="text-xl font-bold text-sidebar-foreground bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-          {role === "admin" ? "ERP System" : "Distributor Portal"}
+          {role === "admin" ? "K Star" : "Distributor Portal"}
         </h1>
         {onClose && (
           <Button
