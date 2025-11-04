@@ -162,6 +162,7 @@ export type Database = {
           role: string
           status: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -173,6 +174,7 @@ export type Database = {
           role: string
           status?: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -184,6 +186,7 @@ export type Database = {
           role?: string
           status?: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -670,6 +673,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_employee_id_for_user: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -679,7 +683,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "hr" | "sales" | "finance"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -807,7 +811,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "hr", "sales", "finance"],
     },
   },
 } as const
