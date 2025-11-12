@@ -112,57 +112,6 @@ export type Database = {
         }
         Relationships: []
       }
-      distributor_stock: {
-        Row: {
-          batch: string | null
-          brand: string
-          case_size: number
-          category: string
-          created_at: string
-          distributor_code: string
-          distributor_name: string
-          id: string
-          item_code: string
-          item_name: string
-          quantity_cases: number
-          quantity_pcs: number
-          stock_value: number
-          updated_at: string
-        }
-        Insert: {
-          batch?: string | null
-          brand: string
-          case_size?: number
-          category: string
-          created_at?: string
-          distributor_code: string
-          distributor_name: string
-          id?: string
-          item_code: string
-          item_name: string
-          quantity_cases?: number
-          quantity_pcs?: number
-          stock_value?: number
-          updated_at?: string
-        }
-        Update: {
-          batch?: string | null
-          brand?: string
-          case_size?: number
-          category?: string
-          created_at?: string
-          distributor_code?: string
-          distributor_name?: string
-          id?: string
-          item_code?: string
-          item_name?: string
-          quantity_cases?: number
-          quantity_pcs?: number
-          stock_value?: number
-          updated_at?: string
-        }
-        Relationships: []
-      }
       distributors: {
         Row: {
           contact: string

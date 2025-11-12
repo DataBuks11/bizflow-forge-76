@@ -44,30 +44,43 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: "Master",
-    icon: Database,
+    title: "Pepup Support",
+    icon: Headphones,
+    children: []
+  },
+  {
+    title: "Admin",
+    icon: Settings,
     children: [
-      { title: "Stock", icon: Warehouse, href: "/inventory" },
-      { title: "Distributor Stock", icon: Package, href: "/distributor-stock" },
-      { title: "GM Status Report", icon: BarChart3, href: "/reports" },
-      { title: "Distributor GM", icon: TrendingUp, href: "/distributor-gm" },
-      { title: "Distributor Fulfillment", icon: FileText, href: "/distributor-fulfillment" },
+      { title: "Dashboard", icon: LayoutDashboard, href: "/" },
+      { title: "Distributors", icon: Building2, href: "/distributors" },
+      { title: "Employees", icon: UsersRound, href: "/employees" },
+      { title: "Reports", icon: BarChart3, href: "/reports" },
     ],
   },
   {
-    title: "Distributors",
-    icon: Building2,
-    href: "/distributors"
+    title: "User",
+    icon: User,
+    children: [
+      { title: "Customers", icon: Users, href: "/customers" },
+      { title: "Sales Target", icon: Target, href: "/sales-target" },
+    ],
   },
   {
-    title: "DMS",
+    title: "Master",
     icon: Database,
-    href: "/dms"
-  },
-  {
-    title: "Reports",
-    icon: BarChart3,
-    href: "/reports"
+    children: [
+      { title: "Primary Returns", icon: RotateCcw, href: "/expenses" },
+      { title: "File & Folder", icon: FolderOpen, href: "/billing" },
+      { title: "Drop Down Master", icon: Dropdown, href: "/currency-converter" },
+      { title: "New Survey Feedback", icon: ClipboardList, href: "/hrm/performance" },
+      { title: "Location", icon: MapPinned, href: "/location-tracking" },
+      { title: "Hierarchy", icon: ListTree, href: "/hrm/attendance" },
+      { title: "Item", icon: Package, href: "/products" },
+      { title: "Salesman", icon: UserCheck, href: "/hrm/leave" },
+      { title: "Route", icon: Route, href: "/crm/orders" },
+      { title: "Stock", icon: Warehouse, href: "/inventory" },
+    ],
   },
 ];
 
@@ -153,7 +166,7 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
             <span className="text-primary font-bold text-lg">K</span>
           </div>
           <h1 className="text-lg font-bold text-sidebar-foreground">
-            {role === "admin" ? "DataBuks ERP" : "Distributor"}
+            {role === "admin" ? "PEPUPSALES" : "Distributor"}
           </h1>
         </div>
         {onClose && (
