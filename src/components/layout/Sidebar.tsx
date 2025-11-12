@@ -53,9 +53,7 @@ const navItems: NavItem[] = [
     icon: Settings,
     children: [
       { title: "Dashboard", icon: LayoutDashboard, href: "/" },
-      { title: "Distributors", icon: Building2, href: "/distributors" },
       { title: "Employees", icon: UsersRound, href: "/employees" },
-      { title: "Reports", icon: BarChart3, href: "/reports" },
     ],
   },
   {
@@ -79,7 +77,19 @@ const navItems: NavItem[] = [
       { title: "Item", icon: Package, href: "/products" },
       { title: "Salesman", icon: UserCheck, href: "/hrm/leave" },
       { title: "Route", icon: Route, href: "/crm/orders" },
-      { title: "Stock", icon: Warehouse, href: "/inventory" },
+      { 
+        title: "Stock", 
+        icon: Warehouse, 
+        children: [
+          { title: "Distributor Stock", icon: ShoppingBag, href: "/distributor-stock" },
+          { title: "GM Status Report", icon: FileText, href: "/gm-status-report" },
+          { title: "Distributor GM", icon: TrendingUp, href: "/distributor-gm" },
+          { title: "Distributor Fulfillment", icon: Receipt, href: "/distributor-fulfillment" },
+          { title: "Distributors", icon: Building2, href: "/distributors" },
+          { title: "DMS", icon: Database, href: "/dms" },
+          { title: "Reports", icon: BarChart3, href: "/reports" },
+        ]
+      },
     ],
   },
 ];
