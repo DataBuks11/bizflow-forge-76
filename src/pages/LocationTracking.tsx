@@ -284,8 +284,6 @@ const LocationTracking = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-
-              {/* Current Location Marker */}
               {currentLocation && (
                 <Marker position={currentLocation.coords} icon={currentLocationIcon}>
                   <Popup>
@@ -298,8 +296,6 @@ const LocationTracking = () => {
                   </Popup>
                 </Marker>
               )}
-
-              {/* Employee Location Markers */}
               {locations.map((loc) => {
                 if (loc.latitude && loc.longitude) {
                   const position: [number, number] = [parseFloat(loc.latitude), parseFloat(loc.longitude)];
