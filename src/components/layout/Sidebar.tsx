@@ -85,11 +85,11 @@ const navItems: NavItem[] = [
           { title: "GM Status Report", icon: FileText, href: "/gm-status-report" },
           { title: "Distributor GM", icon: TrendingUp, href: "/distributor-gm" },
           { title: "Distributor Fulfillment", icon: Receipt, href: "/distributor-fulfillment" },
-          { title: "Distributors", icon: Building2, href: "/distributors" },
-          { title: "DMS", icon: Database, href: "/dms" },
-          { title: "Reports", icon: BarChart3, href: "/reports" },
         ]
       },
+      { title: "Distributors", icon: Building2, href: "/distributors" },
+      { title: "DMS", icon: Database, href: "/dms" },
+      { title: "Reports", icon: BarChart3, href: "/reports" },
     ],
   },
 ];
