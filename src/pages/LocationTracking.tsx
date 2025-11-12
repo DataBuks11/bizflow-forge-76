@@ -5,7 +5,10 @@ import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { MapPin, Navigation, Locate } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer } from "react-leaflet/MapContainer";
+import { TileLayer } from "react-leaflet/TileLayer";
+import { Marker } from "react-leaflet/Marker";
+import { Popup } from "react-leaflet/Popup";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
