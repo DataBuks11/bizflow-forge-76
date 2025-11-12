@@ -44,22 +44,42 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
+    title: "Pepup Support",
+    icon: Headphones,
+    children: []
+  },
+  {
+    title: "Admin",
+    icon: Settings,
+    children: [
+      { title: "Dashboard", icon: LayoutDashboard, href: "/" },
+      { title: "Distributors", icon: Building2, href: "/distributors" },
+      { title: "Employees", icon: UsersRound, href: "/employees" },
+      { title: "Reports", icon: BarChart3, href: "/reports" },
+    ],
+  },
+  {
+    title: "User",
+    icon: User,
+    children: [
+      { title: "Customers", icon: Users, href: "/customers" },
+      { title: "Sales Target", icon: Target, href: "/sales-target" },
+    ],
+  },
+  {
     title: "Master",
     icon: Database,
     children: [
-      { 
-        title: "Stock", 
-        icon: Warehouse, 
-        children: [
-          { title: "Distributor Stock", icon: Package, href: "/distributor-stock" },
-          { title: "GM Status Report", icon: BarChart3, href: "/gm-status-report" },
-          { title: "Distributor GM", icon: TrendingUp, href: "/distributor-gm" },
-          { title: "Distributor Fulfillment", icon: ClipboardList, href: "/distributor-fulfillment" },
-          { title: "Distributors", icon: Building2, href: "/distributors" },
-          { title: "DMS", icon: Database, href: "/dms" },
-          { title: "Reports", icon: FileText, href: "/reports" },
-        ]
-      },
+      { title: "Primary Returns", icon: RotateCcw, href: "/expenses" },
+      { title: "File & Folder", icon: FolderOpen, href: "/billing" },
+      { title: "Drop Down Master", icon: Dropdown, href: "/currency-converter" },
+      { title: "New Survey Feedback", icon: ClipboardList, href: "/hrm/performance" },
+      { title: "Location", icon: MapPinned, href: "/location-tracking" },
+      { title: "Hierarchy", icon: ListTree, href: "/hrm/attendance" },
+      { title: "Item", icon: Package, href: "/products" },
+      { title: "Salesman", icon: UserCheck, href: "/hrm/leave" },
+      { title: "Route", icon: Route, href: "/crm/orders" },
+      { title: "Stock", icon: Warehouse, href: "/inventory" },
     ],
   },
 ];
@@ -95,11 +115,9 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
           <button
             onClick={() => toggleExpand(item.title)}
             className={cn(
-              "flex items-center justify-between w-full py-2 text-sm transition-all",
+              "flex items-center justify-between w-full px-4 py-2 text-sm transition-all",
               "text-sidebar-foreground hover:bg-white/10",
-              level === 0 && "font-medium px-4",
-              level === 1 && "pl-8 pr-4",
-              level === 2 && "pl-12 pr-4"
+              level === 0 && "font-medium"
             )}
           >
             <div className="flex items-center gap-3">
@@ -126,10 +144,8 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
         to={item.href!}
         className={({ isActive }) =>
           cn(
-            "flex items-center gap-3 py-2 text-sm transition-all mb-0.5",
-            level === 0 && "pl-4 pr-4",
-            level === 1 && "pl-8 pr-4",
-            level === 2 && "pl-16 pr-4",
+            "flex items-center gap-3 px-4 py-2 text-sm transition-all mb-0.5",
+            level > 0 && "pl-12",
             isActive
               ? "bg-accent text-accent-foreground font-medium"
               : "text-sidebar-foreground hover:bg-white/10"
