@@ -42,6 +42,16 @@ import Message from "./pages/Message";
 import Scheme from "./pages/Scheme";
 import FileManagement from "./pages/FileManagement";
 import StockTransfer from "./pages/StockTransfer";
+import SuperDistributorStock from "./pages/SuperDistributorStock";
+import Retailers from "./pages/Retailers";
+import Audit from "./pages/Audit";
+import Vehicle from "./pages/Vehicle";
+import NewProjectModule from "./pages/NewProjectModule";
+import Project from "./pages/Project";
+import ReportsScheduler from "./pages/ReportsScheduler";
+import Lead from "./pages/Lead";
+import Campaign from "./pages/Campaign";
+import SurveyFeedback from "./pages/SurveyFeedback";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +144,16 @@ const App = () => {
 <Route path="/scheme" element={<Scheme />} />
 <Route path="/file-management" element={<FileManagement />} />
 <Route path="/stock-transfer" element={<StockTransfer />} />
+<Route path="/super-distributor-stock" element={<SuperDistributorStock />} />
+<Route path="/retailers" element={<Retailers />} />
+<Route path="/audit" element={<Audit />} />
+<Route path="/vehicle" element={<Vehicle />} />
+<Route path="/new-project-module" element={<NewProjectModule />} />
+<Route path="/project" element={<Project />} />
+<Route path="/reports-scheduler" element={<ReportsScheduler />} />
+<Route path="/lead" element={<Lead />} />
+<Route path="/campaign" element={<Campaign />} />
+<Route path="/survey-feedback" element={<SurveyFeedback />} />
 
 <Route path="*" element={<NotFound />} />
                         </Routes>

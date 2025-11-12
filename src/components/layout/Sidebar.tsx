@@ -33,7 +33,15 @@ import {
   MessageSquare,
   Award,
   FolderTree,
-  PackageOpen
+  PackageOpen,
+  Store,
+  ClipboardCheck,
+  Truck,
+  FolderPlus,
+  FolderKanban,
+  UserPlus,
+  Megaphone,
+  MessageSquareText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -91,7 +99,17 @@ const navItems: NavItem[] = [
           { title: "Distributor Fulfillment", icon: Receipt, href: "/distributor-fulfillment" },
         ]
       },
+      { title: "Super Distributor/Stock List", icon: PackageOpen, href: "/super-distributor-stock" },
       { title: "Distributors", icon: Building2, href: "/distributors" },
+      { title: "Retailers", icon: Store, href: "/retailers" },
+      { title: "Audit", icon: ClipboardCheck, href: "/audit" },
+      { title: "Vehicle", icon: Truck, href: "/vehicle" },
+      { title: "New Project Module", icon: FolderPlus, href: "/new-project-module" },
+      { title: "Project", icon: FolderKanban, href: "/project" },
+      { title: "Reports Scheduler", icon: Calendar, href: "/reports-scheduler" },
+      { title: "Lead", icon: UserPlus, href: "/lead" },
+      { title: "Campaign", icon: Megaphone, href: "/campaign" },
+      { title: "Survey Feedback", icon: MessageSquareText, href: "/survey-feedback" },
     ],
   },
   {
