@@ -29,7 +29,11 @@ import {
   MapPinned,
   ListTree,
   ShoppingBag,
-  Route
+  Route,
+  MessageSquare,
+  Award,
+  FolderTree,
+  PackageOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -88,9 +92,37 @@ const navItems: NavItem[] = [
         ]
       },
       { title: "Distributors", icon: Building2, href: "/distributors" },
-      { title: "DMS", icon: Database, href: "/dms" },
-      { title: "Reports", icon: BarChart3, href: "/reports" },
     ],
+  },
+  {
+    title: "Message",
+    icon: MessageSquare,
+    children: []
+  },
+  {
+    title: "Scheme",
+    icon: Award,
+    children: []
+  },
+  {
+    title: "File Management",
+    icon: FolderTree,
+    children: []
+  },
+  {
+    title: "Stock Transfer",
+    icon: PackageOpen,
+    children: []
+  },
+  {
+    title: "DMS",
+    icon: Database,
+    children: []
+  },
+  {
+    title: "Reports",
+    icon: BarChart3,
+    children: []
   },
 ];
 
