@@ -33,6 +33,11 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import DistributorStock from "./pages/DistributorStock";
+import GMStatusReport from "./pages/GMStatusReport";
+import DistributorGM from "./pages/DistributorGM";
+import DistributorFulfillment from "./pages/DistributorFulfillment";
+import DMS from "./pages/DMS";
 
 const queryClient = new QueryClient();
 
@@ -114,6 +119,11 @@ const App = () => {
                           <Route path="/currency-converter" element={<CurrencyConverter />} />
                           <Route path="/profile" element={<Profile />} />
                           <Route path="/settings" element={<Settings />} />
+                          <Route path="/distributor-stock" element={<DistributorStock />} />
+                          <Route path="/gm-status-report" element={<GMStatusReport />} />
+                          <Route path="/distributor-gm" element={<DistributorGM />} />
+                          <Route path="/distributor-fulfillment" element={<DistributorFulfillment />} />
+                          <Route path="/dms" element={<DMS />} />
                           <Route path="*" element={<NotFound />} />
                         </Routes>
                       </main>

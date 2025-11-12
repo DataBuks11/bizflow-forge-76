@@ -1,35 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { 
-  LayoutDashboard, 
-  Package, 
-  Users, 
   Building2, 
-  UsersRound, 
-  ClipboardList,
-  UserCheck,
-  Calendar,
-  Wallet,
-  TrendingUp,
-  Target,
-  MapPin,
   Warehouse,
-  FileText,
-  Receipt,
   BarChart3,
   ChevronDown,
-  ArrowRightLeft,
   X,
-  Headphones,
-  Settings,
-  User,
   Database,
-  RotateCcw,
-  FolderOpen,
-  ChevronDown as Dropdown,
-  MapPinned,
-  ListTree,
-  ShoppingBag,
-  Route
+  PackageCheck,
+  TrendingUp,
+  CheckCircle2,
+  Boxes
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -44,53 +24,22 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: "Pepup Support",
-    icon: Headphones,
-    children: []
-  },
-  {
-    title: "Admin",
-    icon: Settings,
-    children: [
-      { title: "Dashboard", icon: LayoutDashboard, href: "/" },
-      { title: "Distributors", icon: Building2, href: "/distributors" },
-      { title: "Employees", icon: UsersRound, href: "/employees" },
-      { title: "Reports", icon: BarChart3, href: "/reports" },
-    ],
-  },
-  {
-    title: "User",
-    icon: User,
-    children: [
-      { title: "Customers", icon: Users, href: "/customers" },
-      { title: "Sales Target", icon: Target, href: "/sales-target" },
-    ],
-  },
-  {
     title: "Master",
     icon: Database,
     children: [
-      { title: "Primary Returns", icon: RotateCcw, href: "/expenses" },
-      { title: "File & Folder", icon: FolderOpen, href: "/billing" },
-      { title: "Drop Down Master", icon: Dropdown, href: "/currency-converter" },
-      { title: "New Survey Feedback", icon: ClipboardList, href: "/hrm/performance" },
-      { title: "Location", icon: MapPinned, href: "/location-tracking" },
-      { title: "Hierarchy", icon: ListTree, href: "/hrm/attendance" },
-      { title: "Item", icon: Package, href: "/products" },
-      { title: "Salesman", icon: UserCheck, href: "/hrm/leave" },
-      { title: "Route", icon: Route, href: "/crm/orders" },
       { title: "Stock", icon: Warehouse, href: "/inventory" },
+      { title: "Distributor Stock", icon: PackageCheck, href: "/distributor-stock" },
+      { title: "GM Status Report", icon: TrendingUp, href: "/gm-status-report" },
+      { title: "Distributor GM", icon: CheckCircle2, href: "/distributor-gm" },
+      { title: "Distributor Fulfillment", icon: Boxes, href: "/distributor-fulfillment" },
     ],
   },
+  { title: "Distributors", icon: Building2, href: "/distributors" },
+  { title: "DMS", icon: Database, href: "/dms" },
+  { title: "Reports", icon: BarChart3, href: "/reports" },
 ];
 
-const distributorNavItems: NavItem[] = [
-  { title: "Dashboard", icon: LayoutDashboard, href: "/distributor/dashboard" },
-  { title: "Orders", icon: Receipt, href: "/distributor/orders" },
-  { title: "Employees", icon: UsersRound, href: "/distributor/employees" },
-  { title: "Expenses", icon: Wallet, href: "/distributor/expenses" },
-  { title: "Products", icon: Package, href: "/distributor/products" },
-];
+const distributorNavItems: NavItem[] = [];
 
 export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distributor"; onClose?: () => void }) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
@@ -166,7 +115,7 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
             <span className="text-primary font-bold text-lg">K</span>
           </div>
           <h1 className="text-lg font-bold text-sidebar-foreground">
-            {role === "admin" ? "PEPUPSALES" : "Distributor"}
+            {role === "admin" ? "DataBuks ERP" : "Distributor"}
           </h1>
         </div>
         {onClose && (
