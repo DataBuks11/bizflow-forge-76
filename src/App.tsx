@@ -38,6 +38,10 @@ import GMStatusReport from "./pages/GMStatusReport";
 import DistributorGM from "./pages/DistributorGM";
 import DistributorFulfillment from "./pages/DistributorFulfillment";
 import DMS from "./pages/DMS";
+import Message from "./pages/Message";
+import Scheme from "./pages/Scheme";
+import FileManagement from "./pages/FileManagement";
+import StockTransfer from "./pages/StockTransfer";
 
 const queryClient = new QueryClient();
 
@@ -120,12 +124,16 @@ const App = () => {
 <Route path="/profile" element={<Profile />} />
 <Route path="/settings" element={<Settings />} />
 
-{/* Newly added routes to fix 404s */}
+{/* Newly added routes */}
 <Route path="/distributor-stock" element={<DistributorStock />} />
 <Route path="/gm-status-report" element={<GMStatusReport />} />
 <Route path="/distributor-gm" element={<DistributorGM />} />
 <Route path="/distributor-fulfillment" element={<DistributorFulfillment />} />
 <Route path="/dms" element={<DMS />} />
+<Route path="/message" element={<Message />} />
+<Route path="/scheme" element={<Scheme />} />
+<Route path="/file-management" element={<FileManagement />} />
+<Route path="/stock-transfer" element={<StockTransfer />} />
 
 <Route path="*" element={<NotFound />} />
                         </Routes>

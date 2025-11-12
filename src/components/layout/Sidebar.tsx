@@ -97,32 +97,32 @@ const navItems: NavItem[] = [
   {
     title: "Message",
     icon: MessageSquare,
-    children: []
+    href: "/message",
   },
   {
     title: "Scheme",
     icon: Award,
-    children: []
+    href: "/scheme",
   },
   {
     title: "File Management",
     icon: FolderTree,
-    children: []
+    href: "/file-management",
   },
   {
     title: "Stock Transfer",
     icon: PackageOpen,
-    children: []
+    href: "/stock-transfer",
   },
   {
     title: "DMS",
     icon: Database,
-    children: []
+    href: "/dms",
   },
   {
     title: "Reports",
     icon: BarChart3,
-    children: []
+    href: "/reports",
   },
 ];
 
