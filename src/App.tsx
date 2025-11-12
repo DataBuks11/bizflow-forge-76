@@ -28,6 +28,7 @@ import Payroll from "./pages/hrm/Payroll";
 import Performance from "./pages/hrm/Performance";
 import DistributorDashboard from "./pages/distributor/DistributorDashboard";
 import DistributorOrders from "./pages/distributor/DistributorOrders";
+import DistributorStock from "./pages/DistributorStock";
 import CurrencyConverter from "./pages/CurrencyConverter";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
@@ -111,6 +112,7 @@ const App = () => {
                           <Route path="/hrm/performance" element={<Performance />} />
                           <Route path="/distributor/dashboard" element={<DistributorDashboard />} />
                           <Route path="/distributor/orders" element={<DistributorOrders />} />
+                          <Route path="/distributor-stock" element={<DistributorStock />} />
                           <Route path="/currency-converter" element={<CurrencyConverter />} />
                           <Route path="/profile" element={<Profile />} />
                           <Route path="/settings" element={<Settings />} />
