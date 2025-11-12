@@ -49,6 +49,58 @@ const inactiveLocationIcon = new L.Icon({
 const defaultCenter: [number, number] = [21.1458, 79.0882];
 const defaultCenterName = "Ujjwal Nagar, Nagpur";
 
+// Separate component for map markers to ensure clean React structure
+const MapMarkers = ({ currentLocation, locations }: any) => {
+  return (
+    <>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {currentLocation && (
+        <Marker position={currentLocation.coords} icon={currentLocationIcon}>
+          <Popup>
+            <div className="p-2">
+              <h3 className="font-semibold text-sm">{currentLocation.name}</h3>
+              <p className="text-xs text-gray-500">
+                {currentLocation.coords[0].toFixed(4)}, {currentLocation.coords[1].toFixed(4)}
+              </p>
+            </div>
+          </Popup>
+        </Marker>
+      )}
+      {locations.filter((loc: any) => loc.latitude && loc.longitude).map((loc: any) => {
+        const position: [number, number] = [parseFloat(loc.latitude), parseFloat(loc.longitude)];
+        return (
+          <Marker
+            key={loc.id}
+            position={position}
+            icon={loc.status === 'Active' ? activeLocationIcon : inactiveLocationIcon}
+          >
+            <Popup>
+              <div className="p-2">
+                <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
+                <p className="text-xs text-gray-600">{loc.role}</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
+                    {loc.status}
+                  </span>
+                </p>
+                <p className="text-xs text-gray-500">
+                  {position[0].toFixed(4)}, {position[1].toFixed(4)}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {new Date(loc.updated_at).toLocaleString()}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
+    </>
+  );
+};
+
 const LocationTracking = () => {
   const [locations, setLocations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -280,53 +332,7 @@ const LocationTracking = () => {
               style={{ height: "100%", width: "100%" }}
               scrollWheelZoom={true}
             >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {currentLocation && (
-                <Marker position={currentLocation.coords} icon={currentLocationIcon}>
-                  <Popup>
-                    <div className="p-2">
-                      <h3 className="font-semibold text-sm">{currentLocation.name}</h3>
-                      <p className="text-xs text-gray-500">
-                        {currentLocation.coords[0].toFixed(4)}, {currentLocation.coords[1].toFixed(4)}
-                      </p>
-                    </div>
-                  </Popup>
-                </Marker>
-              )}
-              {locations.map((loc) => {
-                if (loc.latitude && loc.longitude) {
-                  const position: [number, number] = [parseFloat(loc.latitude), parseFloat(loc.longitude)];
-                  return (
-                    <Marker
-                      key={loc.id}
-                      position={position}
-                      icon={loc.status === 'Active' ? activeLocationIcon : inactiveLocationIcon}
-                    >
-                      <Popup>
-                        <div className="p-2">
-                          <h3 className="font-semibold text-sm">{loc.employee_name}</h3>
-                          <p className="text-xs text-gray-600">{loc.role}</p>
-                          <p className="text-xs text-gray-500 mt-1">
-                            Status: <span className={loc.status === 'Active' ? 'text-green-600' : 'text-red-600'}>
-                              {loc.status}
-                            </span>
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {position[0].toFixed(4)}, {position[1].toFixed(4)}
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            {new Date(loc.updated_at).toLocaleString()}
-                          </p>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  );
-                }
-                return null;
-              })}
+              <MapMarkers currentLocation={currentLocation} locations={locations} />
             </MapContainer>
           </div>
         </CardContent>
