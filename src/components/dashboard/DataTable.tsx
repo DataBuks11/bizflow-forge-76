@@ -9,43 +9,56 @@ interface Column {
 }
 
 interface DataTableProps {
-  title: string;
+  title?: string;
   columns: Column[];
   data: any[];
   actions?: (row: any) => React.ReactNode;
+  loading?: boolean;
 }
 
-export const DataTable = ({ title, columns, data, actions }: DataTableProps) => {
+export const DataTable = ({ title, columns, data, actions, loading }: DataTableProps) => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
+      {title && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column.key}>{column.label}</TableHead>
-              ))}
-              {actions && <TableHead className="text-right">Actions</TableHead>}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((row, index) => (
-              <TableRow key={index}>
+        {loading ? (
+          <div className="flex items-center justify-center py-8">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        ) : data.length === 0 ? (
+          <div className="flex items-center justify-center py-8">
+            <p className="text-muted-foreground">No data available</p>
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.key}>
-                    {column.render ? column.render(row[column.key], row) : row[column.key]}
-                  </TableCell>
+                  <TableHead key={column.key}>{column.label}</TableHead>
                 ))}
-                {actions && (
-                  <TableCell className="text-right">{actions(row)}</TableCell>
-                )}
+                {actions && <TableHead className="text-right">Actions</TableHead>}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {data.map((row, index) => (
+                <TableRow key={index}>
+                  {columns.map((column) => (
+                    <TableCell key={column.key}>
+                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    </TableCell>
+                  ))}
+                  {actions && (
+                    <TableCell className="text-right">{actions(row)}</TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );

@@ -58,6 +58,81 @@ export type Database = {
           },
         ]
       }
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          description: string | null
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          module: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          module: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          module?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          budget: number | null
+          campaign_name: string
+          campaign_type: string
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          start_date: string
+          status: string
+          target_audience: string | null
+          updated_at: string
+        }
+        Insert: {
+          budget?: number | null
+          campaign_name: string
+          campaign_type: string
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          start_date: string
+          status?: string
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Update: {
+          budget?: number | null
+          campaign_name?: string
+          campaign_type?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          start_date?: string
+          status?: string
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           address: string | null
@@ -109,6 +184,57 @@ export type Database = {
           status?: string
           type?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      distributor_stock: {
+        Row: {
+          batch: string | null
+          brand: string
+          case_size: number
+          category: string
+          created_at: string
+          distributor_code: string
+          distributor_name: string
+          id: string
+          item_code: string
+          item_name: string
+          quantity_cases: number
+          quantity_pcs: number
+          stock_value: number
+          updated_at: string
+        }
+        Insert: {
+          batch?: string | null
+          brand: string
+          case_size?: number
+          category: string
+          created_at?: string
+          distributor_code: string
+          distributor_name: string
+          id?: string
+          item_code: string
+          item_name: string
+          quantity_cases?: number
+          quantity_pcs?: number
+          stock_value?: number
+          updated_at?: string
+        }
+        Update: {
+          batch?: string | null
+          brand?: string
+          case_size?: number
+          category?: string
+          created_at?: string
+          distributor_code?: string
+          distributor_name?: string
+          id?: string
+          item_code?: string
+          item_name?: string
+          quantity_cases?: number
+          quantity_pcs?: number
+          stock_value?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -528,6 +654,87 @@ export type Database = {
         }
         Relationships: []
       }
+      project_modules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          module_code: string
+          module_name: string
+          status: string
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          module_code: string
+          module_name: string
+          status?: string
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          module_code?: string
+          module_name?: string
+          status?: string
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          budget: number | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          id: string
+          manager_id: string | null
+          progress: number | null
+          project_code: string
+          project_name: string
+          start_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          budget?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          manager_id?: string | null
+          progress?: number | null
+          project_code: string
+          project_name: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          budget?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          manager_id?: string | null
+          progress?: number | null
+          project_code?: string
+          project_name?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       quotations: {
         Row: {
           amount: number
@@ -561,6 +768,93 @@ export type Database = {
           status?: string
           updated_at?: string
           valid_until?: string
+        }
+        Relationships: []
+      }
+      report_schedules: {
+        Row: {
+          created_at: string
+          frequency: string
+          id: string
+          last_run_date: string | null
+          next_run_date: string | null
+          recipients: string[] | null
+          report_name: string
+          report_type: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          frequency: string
+          id?: string
+          last_run_date?: string | null
+          next_run_date?: string | null
+          recipients?: string[] | null
+          report_name: string
+          report_type: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          frequency?: string
+          id?: string
+          last_run_date?: string | null
+          next_run_date?: string | null
+          recipients?: string[] | null
+          report_name?: string
+          report_type?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      retailers: {
+        Row: {
+          address: string | null
+          city: string | null
+          contact_person: string
+          created_at: string
+          distributor_id: string | null
+          email: string
+          gstin: string | null
+          id: string
+          name: string
+          phone: string
+          state: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          contact_person: string
+          created_at?: string
+          distributor_id?: string | null
+          email: string
+          gstin?: string | null
+          id?: string
+          name: string
+          phone: string
+          state?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          contact_person?: string
+          created_at?: string
+          distributor_id?: string | null
+          email?: string
+          gstin?: string | null
+          id?: string
+          name?: string
+          phone?: string
+          state?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -650,6 +944,90 @@ export type Database = {
           },
         ]
       }
+      super_distributor_stock: {
+        Row: {
+          batch: string | null
+          brand: string
+          case_size: number
+          category: string
+          created_at: string
+          id: string
+          item_code: string
+          item_name: string
+          quantity_cases: number
+          quantity_pcs: number
+          stock_value: number
+          super_distributor_code: string
+          super_distributor_name: string
+          updated_at: string
+        }
+        Insert: {
+          batch?: string | null
+          brand: string
+          case_size?: number
+          category: string
+          created_at?: string
+          id?: string
+          item_code: string
+          item_name: string
+          quantity_cases?: number
+          quantity_pcs?: number
+          stock_value?: number
+          super_distributor_code: string
+          super_distributor_name: string
+          updated_at?: string
+        }
+        Update: {
+          batch?: string | null
+          brand?: string
+          case_size?: number
+          category?: string
+          created_at?: string
+          id?: string
+          item_code?: string
+          item_name?: string
+          quantity_cases?: number
+          quantity_pcs?: number
+          stock_value?: number
+          super_distributor_code?: string
+          super_distributor_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      survey_feedback: {
+        Row: {
+          category: string | null
+          feedback: string | null
+          id: string
+          rating: number | null
+          respondent_email: string | null
+          respondent_name: string | null
+          submitted_at: string
+          survey_name: string
+        }
+        Insert: {
+          category?: string | null
+          feedback?: string | null
+          id?: string
+          rating?: number | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          submitted_at?: string
+          survey_name: string
+        }
+        Update: {
+          category?: string | null
+          feedback?: string | null
+          id?: string
+          rating?: number | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          submitted_at?: string
+          survey_name?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -665,6 +1043,51 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      vehicles: {
+        Row: {
+          capacity: number | null
+          created_at: string
+          driver_name: string | null
+          driver_phone: string | null
+          id: string
+          last_service_date: string | null
+          model: string | null
+          next_service_date: string | null
+          status: string
+          updated_at: string
+          vehicle_number: string
+          vehicle_type: string
+        }
+        Insert: {
+          capacity?: number | null
+          created_at?: string
+          driver_name?: string | null
+          driver_phone?: string | null
+          id?: string
+          last_service_date?: string | null
+          model?: string | null
+          next_service_date?: string | null
+          status?: string
+          updated_at?: string
+          vehicle_number: string
+          vehicle_type: string
+        }
+        Update: {
+          capacity?: number | null
+          created_at?: string
+          driver_name?: string | null
+          driver_phone?: string | null
+          id?: string
+          last_service_date?: string | null
+          model?: string | null
+          next_service_date?: string | null
+          status?: string
+          updated_at?: string
+          vehicle_number?: string
+          vehicle_type?: string
         }
         Relationships: []
       }
