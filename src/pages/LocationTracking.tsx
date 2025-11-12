@@ -335,7 +335,7 @@ const LocationTracking = () => {
               style={{ height: "100%", width: "100%" }}
               scrollWheelZoom={true}
             >
-              <MapMarkers currentLocation={currentLocation} locations={locations} />
+              {(() => <MapMarkers currentLocation={currentLocation} locations={locations} />) as any}
             </MapContainer>
           </div>
         </CardContent>
