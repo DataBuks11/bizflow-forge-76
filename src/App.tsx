@@ -52,6 +52,7 @@ import ReportsScheduler from "./pages/ReportsScheduler";
 import Lead from "./pages/Lead";
 import Campaign from "./pages/Campaign";
 import SurveyFeedback from "./pages/SurveyFeedback";
+import DynamicFilterReport from "./pages/DynamicFilterReport";
 
 const queryClient = new QueryClient();
 
@@ -154,6 +155,7 @@ const App = () => {
 <Route path="/lead" element={<Lead />} />
 <Route path="/campaign" element={<Campaign />} />
 <Route path="/survey-feedback" element={<SurveyFeedback />} />
+<Route path="/dynamic-filter-report" element={<DynamicFilterReport />} />
 
 <Route path="*" element={<NotFound />} />
                         </Routes>

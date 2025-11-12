@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Award, Calendar, TrendingUp, Gift } from "lucide-react";
+import { Calendar, TrendingUp, Gift, Award } from "lucide-react";
+import { SchemeDialog } from "@/components/dialogs/SchemeDialog";
 
 const Scheme = () => {
   const schemes = [
@@ -50,10 +50,7 @@ const Scheme = () => {
           <h1 className="text-3xl font-bold">Schemes & Offers</h1>
           <p className="text-muted-foreground">Manage promotional schemes and discount programs</p>
         </div>
-        <Button>
-          <Award className="h-4 w-4 mr-2" />
-          Create New Scheme
-        </Button>
+        <SchemeDialog />
       </div>
 
       <div className="grid gap-4">

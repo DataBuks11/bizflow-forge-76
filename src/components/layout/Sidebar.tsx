@@ -41,7 +41,8 @@ import {
   FolderKanban,
   UserPlus,
   Megaphone,
-  MessageSquareText
+  MessageSquareText,
+  Filter
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -141,6 +142,11 @@ const navItems: NavItem[] = [
     title: "Reports",
     icon: BarChart3,
     href: "/reports",
+  },
+  {
+    title: "Dynamic Filter Report",
+    icon: Filter,
+    href: "/dynamic-filter-report",
   },
 ];
 

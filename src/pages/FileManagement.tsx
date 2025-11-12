@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { 
-  FolderTree, 
-  File, 
-  Upload, 
   Download, 
   Search,
   FileText,
@@ -14,6 +11,7 @@ import {
   FileImage,
   Folder
 } from "lucide-react";
+import { FileUploadDialog } from "@/components/dialogs/FileUploadDialog";
 
 const FileManagement = () => {
   const [files] = useState([
@@ -62,10 +60,7 @@ const FileManagement = () => {
           <h1 className="text-3xl font-bold">File Management</h1>
           <p className="text-muted-foreground">Organize and manage your documents</p>
         </div>
-        <Button>
-          <Upload className="h-4 w-4 mr-2" />
-          Upload File
-        </Button>
+        <FileUploadDialog />
       </div>
 
       <Card>
