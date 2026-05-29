@@ -2,6 +2,27 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { IndianRupee, Users, Building2, ShoppingCart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  BarChart, Bar, Legend,
+} from "recharts";
+
+const salesData = [
+  { month: "Jan", sales: 1820000, target: 1700000 },
+  { month: "Feb", sales: 1950000, target: 1800000 },
+  { month: "Mar", sales: 2240000, target: 2000000 },
+  { month: "Apr", sales: 2080000, target: 2100000 },
+  { month: "May", sales: 2358000, target: 2200000 },
+  { month: "Jun", sales: 2510000, target: 2300000 },
+];
+
+const performanceData = [
+  { name: "Sales", achieved: 92, target: 100 },
+  { name: "Distribution", achieved: 87, target: 100 },
+  { name: "Service", achieved: 95, target: 100 },
+  { name: "Collection", achieved: 78, target: 100 },
+  { name: "Operations", achieved: 88, target: 100 },
+];
 
 const recentOrders = [
   { id: "ORD-001", customer: "ABC Corp", amount: "₹10,37,500", status: "Pending", date: "2025-10-14" },
