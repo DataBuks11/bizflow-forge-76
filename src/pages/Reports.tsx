@@ -7,6 +7,52 @@ import { toast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
+import {
+  ResponsiveContainer, LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+} from "recharts";
+
+const salesRevenueData = [
+  { month: "Jan", revenue: 1820000, profit: 420000 },
+  { month: "Feb", revenue: 1950000, profit: 465000 },
+  { month: "Mar", revenue: 2240000, profit: 538000 },
+  { month: "Apr", revenue: 2080000, profit: 498000 },
+  { month: "May", revenue: 2358000, profit: 582000 },
+  { month: "Jun", revenue: 2510000, profit: 625000 },
+];
+const employeePerfData = [
+  { name: "Rahul", score: 92 }, { name: "Sneha", score: 95 },
+  { name: "Karan", score: 88 }, { name: "Priya", score: 91 },
+  { name: "Vikram", score: 84 }, { name: "Anjali", score: 89 },
+];
+const inventoryData = [
+  { category: "Beverages", stock: 4200, min: 1000 },
+  { category: "Snacks", stock: 3100, min: 800 },
+  { category: "Personal Care", stock: 2400, min: 600 },
+  { category: "Household", stock: 1850, min: 500 },
+  { category: "Dairy", stock: 980, min: 400 },
+];
+const orderTrendData = [
+  { week: "W1", orders: 128 }, { week: "W2", orders: 142 },
+  { week: "W3", orders: 156 }, { week: "W4", orders: 138 },
+  { week: "W5", orders: 168 }, { week: "W6", orders: 182 },
+];
+const expensesData = [
+  { name: "Salary", value: 1240000 },
+  { name: "Logistics", value: 480000 },
+  { name: "Marketing", value: 320000 },
+  { name: "Office", value: 180000 },
+  { name: "Misc", value: 95000 },
+];
+const attendanceData = [
+  { day: "Mon", present: 142, absent: 14 },
+  { day: "Tue", present: 148, absent: 8 },
+  { day: "Wed", present: 145, absent: 11 },
+  { day: "Thu", present: 150, absent: 6 },
+  { day: "Fri", present: 138, absent: 18 },
+  { day: "Sat", present: 122, absent: 34 },
+];
+const PIE_COLORS = ["hsl(var(--primary))", "hsl(var(--accent))", "#10b981", "#f59e0b", "#8b5cf6"];
 
 const Reports = () => {
   const [reportsData, setReportsData] = useState({
