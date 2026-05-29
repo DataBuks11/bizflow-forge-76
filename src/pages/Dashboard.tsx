@@ -2,6 +2,27 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { DataTable, StatusBadge } from "@/components/dashboard/DataTable";
 import { IndianRupee, Users, Building2, ShoppingCart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  BarChart, Bar, Legend,
+} from "recharts";
+
+const salesData = [
+  { month: "Jan", sales: 1820000, target: 1700000 },
+  { month: "Feb", sales: 1950000, target: 1800000 },
+  { month: "Mar", sales: 2240000, target: 2000000 },
+  { month: "Apr", sales: 2080000, target: 2100000 },
+  { month: "May", sales: 2358000, target: 2200000 },
+  { month: "Jun", sales: 2510000, target: 2300000 },
+];
+
+const performanceData = [
+  { name: "Sales", achieved: 92, target: 100 },
+  { name: "Distribution", achieved: 87, target: 100 },
+  { name: "Service", achieved: 95, target: 100 },
+  { name: "Collection", achieved: 78, target: 100 },
+  { name: "Operations", achieved: 88, target: 100 },
+];
 
 const recentOrders = [
   { id: "ORD-001", customer: "ABC Corp", amount: "₹10,37,500", status: "Pending", date: "2025-10-14" },
@@ -50,8 +71,23 @@ const Dashboard = () => {
             <CardTitle>Sales Overview</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Sales Graph</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={salesData}>
+                  <defs>
+                    <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="month" fontSize={12} />
+                  <YAxis fontSize={12} tickFormatter={(v) => `₹${(v/100000).toFixed(0)}L`} />
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString('en-IN')}`} />
+                  <Area type="monotone" dataKey="sales" stroke="hsl(var(--primary))" fill="url(#salesGrad)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="target" stroke="hsl(var(--accent))" fill="transparent" strokeDasharray="5 5" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -61,8 +97,18 @@ const Dashboard = () => {
             <CardTitle>Performance Metrics</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Performance</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={performanceData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="name" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="achieved" fill="hsl(var(--primary))" radius={[4,4,0,0]} />
+                  <Bar dataKey="target" fill="hsl(var(--accent))" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>

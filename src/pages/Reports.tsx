@@ -7,6 +7,52 @@ import { toast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
+import {
+  ResponsiveContainer, LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+} from "recharts";
+
+const salesRevenueData = [
+  { month: "Jan", revenue: 1820000, profit: 420000 },
+  { month: "Feb", revenue: 1950000, profit: 465000 },
+  { month: "Mar", revenue: 2240000, profit: 538000 },
+  { month: "Apr", revenue: 2080000, profit: 498000 },
+  { month: "May", revenue: 2358000, profit: 582000 },
+  { month: "Jun", revenue: 2510000, profit: 625000 },
+];
+const employeePerfData = [
+  { name: "Rahul", score: 92 }, { name: "Sneha", score: 95 },
+  { name: "Karan", score: 88 }, { name: "Priya", score: 91 },
+  { name: "Vikram", score: 84 }, { name: "Anjali", score: 89 },
+];
+const inventoryData = [
+  { category: "Beverages", stock: 4200, min: 1000 },
+  { category: "Snacks", stock: 3100, min: 800 },
+  { category: "Personal Care", stock: 2400, min: 600 },
+  { category: "Household", stock: 1850, min: 500 },
+  { category: "Dairy", stock: 980, min: 400 },
+];
+const orderTrendData = [
+  { week: "W1", orders: 128 }, { week: "W2", orders: 142 },
+  { week: "W3", orders: 156 }, { week: "W4", orders: 138 },
+  { week: "W5", orders: 168 }, { week: "W6", orders: 182 },
+];
+const expensesData = [
+  { name: "Salary", value: 1240000 },
+  { name: "Logistics", value: 480000 },
+  { name: "Marketing", value: 320000 },
+  { name: "Office", value: 180000 },
+  { name: "Misc", value: 95000 },
+];
+const attendanceData = [
+  { day: "Mon", present: 142, absent: 14 },
+  { day: "Tue", present: 148, absent: 8 },
+  { day: "Wed", present: 145, absent: 11 },
+  { day: "Thu", present: 150, absent: 6 },
+  { day: "Fri", present: 138, absent: 18 },
+  { day: "Sat", present: 122, absent: 34 },
+];
+const PIE_COLORS = ["hsl(var(--primary))", "hsl(var(--accent))", "#10b981", "#f59e0b", "#8b5cf6"];
 
 const Reports = () => {
   const [reportsData, setReportsData] = useState({
@@ -152,8 +198,18 @@ const Reports = () => {
             <CardTitle>Sales & Revenue</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Sales Revenue Graph</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={salesRevenueData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="month" fontSize={12} />
+                  <YAxis fontSize={12} tickFormatter={(v) => `${(v/100000).toFixed(0)}L`} />
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString('en-IN')}`} />
+                  <Legend />
+                  <Area type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
+                  <Area type="monotone" dataKey="profit" stroke="hsl(var(--accent))" fill="hsl(var(--accent))" fillOpacity={0.3} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -163,8 +219,16 @@ const Reports = () => {
             <CardTitle>Employee Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Performance Chart</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={employeePerfData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="name" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Bar dataKey="score" fill="hsl(var(--primary))" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -174,8 +238,18 @@ const Reports = () => {
             <CardTitle>Inventory Stock Levels</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Inventory Chart</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={inventoryData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis type="number" fontSize={12} />
+                  <YAxis type="category" dataKey="category" fontSize={12} width={90} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="stock" fill="hsl(var(--primary))" radius={[0,4,4,0]} />
+                  <Bar dataKey="min" fill="hsl(var(--accent))" radius={[0,4,4,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -185,8 +259,16 @@ const Reports = () => {
             <CardTitle>Distributor Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Orders Graph</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={orderTrendData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="week" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="orders" stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -196,8 +278,15 @@ const Reports = () => {
             <CardTitle>Monthly Expenses</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Expenses Summary</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={expensesData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={(e) => e.name}>
+                    {expensesData.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                  </Pie>
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString('en-IN')}`} />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
@@ -207,8 +296,18 @@ const Reports = () => {
             <CardTitle>Attendance & Location Data</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Attendance Chart</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={attendanceData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="day" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="present" stackId="a" fill="hsl(var(--primary))" />
+                  <Bar dataKey="absent" stackId="a" fill="hsl(var(--accent))" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
