@@ -57,7 +57,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: "Pepup Support",
+    title: "DataBuks Support",
     icon: Headphones,
     children: []
   },
@@ -252,7 +252,7 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
       <div className="p-4 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
-            <span className="text-primary font-bold text-lg">K</span>
+            <span className="text-primary font-bold text-lg">D</span>
           </div>
           <h1 className="text-lg font-bold text-sidebar-foreground">
             {role === "admin" ? "DataBuks Sale" : "Distributor"}
