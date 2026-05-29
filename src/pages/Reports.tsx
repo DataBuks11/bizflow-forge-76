@@ -238,8 +238,18 @@ const Reports = () => {
             <CardTitle>Inventory Stock Levels</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Inventory Chart</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={inventoryData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis type="number" fontSize={12} />
+                  <YAxis type="category" dataKey="category" fontSize={12} width={90} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="stock" fill="hsl(var(--primary))" radius={[0,4,4,0]} />
+                  <Bar dataKey="min" fill="hsl(var(--accent))" radius={[0,4,4,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
