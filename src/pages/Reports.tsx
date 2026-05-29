@@ -219,8 +219,16 @@ const Reports = () => {
             <CardTitle>Employee Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Performance Chart</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={employeePerfData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="name" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Bar dataKey="score" fill="hsl(var(--primary))" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
