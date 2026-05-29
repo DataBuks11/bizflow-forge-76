@@ -1,6 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { Progress } from "@/components/ui/progress";
+import {
+  ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+} from "recharts";
 
 const performanceData = [
   { id: "EMP-001", name: "John Smith", role: "Sales Manager", target: 100, achieved: 95, rating: 4.5 },
