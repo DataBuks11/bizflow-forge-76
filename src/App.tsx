@@ -53,6 +53,7 @@ import Lead from "./pages/Lead";
 import Campaign from "./pages/Campaign";
 import SurveyFeedback from "./pages/SurveyFeedback";
 import DynamicFilterReport from "./pages/DynamicFilterReport";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
 const queryClient = new QueryClient();
 
@@ -156,6 +157,19 @@ const App = () => {
 <Route path="/campaign" element={<Campaign />} />
 <Route path="/survey-feedback" element={<SurveyFeedback />} />
 <Route path="/dynamic-filter-report" element={<DynamicFilterReport />} />
+
+<Route path="/hierarchy-sort" element={<PlaceholderPage title="Hierarchy Sort" />} />
+<Route path="/route/customer-wise-day-wise-pjp" element={<PlaceholderPage title="Customer Wise Day Wise PJP" />} />
+<Route path="/route/list-by-market" element={<PlaceholderPage title="Route List by Market" />} />
+<Route path="/route/creation" element={<PlaceholderPage title="Route Creation" />} />
+<Route path="/route/assignment" element={<PlaceholderPage title="Route Assignment" />} />
+<Route path="/route/assignment-by-month" element={<PlaceholderPage title="Route Assignment by Month" />} />
+<Route path="/route/monthwise-assignment" element={<PlaceholderPage title="Monthwise Route Assignment" />} />
+<Route path="/route/designation-wise-assignment" element={<PlaceholderPage title="Designation Wise Route Assignment" />} />
+<Route path="/route/customer-wise" element={<PlaceholderPage title="Customer Wise Route" />} />
+<Route path="/route/salesman-customer-mapping" element={<PlaceholderPage title="Salesman & Customer Mapping" />} />
+<Route path="/route/city-wise" element={<PlaceholderPage title="City Wise Route" />} />
+<Route path="/route/wise-retailer-distributor" element={<PlaceholderPage title="Route Wise Retailer/Distributor" />} />
 
 <Route path="*" element={<NotFound />} />
                         </Routes>
