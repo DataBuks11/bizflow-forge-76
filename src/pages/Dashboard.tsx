@@ -71,8 +71,23 @@ const Dashboard = () => {
             <CardTitle>Sales Overview</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Sales Graph</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={salesData}>
+                  <defs>
+                    <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="month" fontSize={12} />
+                  <YAxis fontSize={12} tickFormatter={(v) => `₹${(v/100000).toFixed(0)}L`} />
+                  <Tooltip formatter={(v: number) => `₹${v.toLocaleString('en-IN')}`} />
+                  <Area type="monotone" dataKey="sales" stroke="hsl(var(--primary))" fill="url(#salesGrad)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="target" stroke="hsl(var(--accent))" fill="transparent" strokeDasharray="5 5" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
