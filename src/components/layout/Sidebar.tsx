@@ -57,7 +57,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: "Pepup Support",
+    title: "DataBuks Support",
     icon: Headphones,
     children: []
   },
