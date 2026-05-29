@@ -97,8 +97,18 @@ const Dashboard = () => {
             <CardTitle>Performance Metrics</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-center justify-center border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">Chart Placeholder - Performance</p>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={performanceData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="name" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="achieved" fill="hsl(var(--primary))" radius={[4,4,0,0]} />
+                  <Bar dataKey="target" fill="hsl(var(--accent))" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
