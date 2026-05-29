@@ -53,6 +53,7 @@ import Lead from "./pages/Lead";
 import Campaign from "./pages/Campaign";
 import SurveyFeedback from "./pages/SurveyFeedback";
 import DynamicFilterReport from "./pages/DynamicFilterReport";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
 const queryClient = new QueryClient();
 
