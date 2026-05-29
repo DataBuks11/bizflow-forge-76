@@ -86,10 +86,33 @@ const navItems: NavItem[] = [
       { title: "Drop Down Master", icon: Dropdown, href: "/currency-converter" },
       { title: "New Survey Feedback", icon: ClipboardList, href: "/hrm/performance" },
       { title: "Location", icon: MapPinned, href: "/location-tracking" },
-      { title: "Hierarchy", icon: ListTree, href: "/hrm/attendance" },
+      { 
+        title: "Hierarchy", 
+        icon: ListTree, 
+        children: [
+          { title: "Hierarchy Sort", icon: ListTree, href: "/hrm/attendance" },
+        ]
+      },
       { title: "Item", icon: Package, href: "/products" },
       { title: "Salesman", icon: UserCheck, href: "/hrm/leave" },
-      { title: "Route", icon: Route, href: "/crm/orders" },
+      { 
+        title: "Route", 
+        icon: Route, 
+        children: [
+          { title: "Route List", icon: Route, href: "/crm/orders" },
+          { title: "Customer Wise Day Wise PJP", icon: Route, href: "/route/customer-wise-day-wise-pjp" },
+          { title: "Route List by Market", icon: Route, href: "/route/list-by-market" },
+          { title: "Route Creation", icon: Route, href: "/route/creation" },
+          { title: "Route Assignment", icon: Route, href: "/route/assignment" },
+          { title: "Route Assignment by Month", icon: Route, href: "/route/assignment-by-month" },
+          { title: "Monthwise Route Assignment", icon: Route, href: "/route/monthwise-assignment" },
+          { title: "Designation Wise Route Assignment", icon: Route, href: "/route/designation-wise-assignment" },
+          { title: "Customer Wise Route", icon: Route, href: "/route/customer-wise" },
+          { title: "Salesman & Customer Mapping", icon: Route, href: "/route/salesman-customer-mapping" },
+          { title: "City Wise Route", icon: Route, href: "/route/city-wise" },
+          { title: "Route Wise Retailer/Distributor", icon: Route, href: "/route/wise-retailer-distributor" },
+        ]
+      },
       { 
         title: "Stock", 
         icon: Warehouse, 
