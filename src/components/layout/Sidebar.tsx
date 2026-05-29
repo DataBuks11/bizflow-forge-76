@@ -255,7 +255,7 @@ export const Sidebar = ({ role = "admin", onClose }: { role?: "admin" | "distrib
             <span className="text-primary font-bold text-lg">K</span>
           </div>
           <h1 className="text-lg font-bold text-sidebar-foreground">
-            {role === "admin" ? "PEPUPSALES" : "Distributor"}
+            {role === "admin" ? "DataBuks Sale" : "Distributor"}
           </h1>
         </div>
         {onClose && (
