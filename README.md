@@ -4,7 +4,7 @@ Welcome to your **DataBuks** project
 
 ## Project info
 
-**URL**: [https://k-star-technology.vercel.app](https://k-star-technology.vercel.app)
+**URL**: [https://bizflow-forge-76-1p53.vercel.app/](https://bizflow-forge-76-1p53.vercel.app/)
 
 ## How can I edit this code?
 
@@ -12,7 +12,7 @@ There are several ways of editing your application.
 
 **Use DataBuks**
 
-Simply visit the [DataBuks Project](https://k-star-technology.vercel.app) and start prompting.
+Simply visit the [DataBuks Project](https://bizflow-forge-76-1p53.vercel.app/) and start prompting.
 
 Changes made via **DataBuks** will be committed automatically to this repo.
 
